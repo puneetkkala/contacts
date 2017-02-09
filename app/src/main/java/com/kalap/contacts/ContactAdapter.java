@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,11 +51,14 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
     public class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView contactName;
+        public ImageView contactIcon;
 
         public ContactViewHolder(View itemView) {
             super(itemView);
             contactName = (TextView) itemView.findViewById(R.id.contact_name);
             contactName.setOnClickListener(this);
+            contactIcon = (ImageView) itemView.findViewById(R.id.contact_icon);
+            contactIcon.setOnClickListener(this);
         }
 
         @Override
