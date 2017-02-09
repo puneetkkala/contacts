@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -47,11 +48,14 @@ public class PhoneNumberAdapter extends RecyclerView.Adapter<PhoneNumberAdapter.
     public class PhoneNumberViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView phoneNumberTv;
+        public ImageView contactIcon;
 
         public PhoneNumberViewHolder(View itemView) {
             super(itemView);
             phoneNumberTv = (TextView) itemView.findViewById(R.id.contact_name);
             phoneNumberTv.setOnClickListener(this);
+            contactIcon = (ImageView) itemView.findViewById(R.id.contact_icon);
+            contactIcon.setOnClickListener(this);
         }
 
         @Override
