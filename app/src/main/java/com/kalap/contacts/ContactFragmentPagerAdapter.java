@@ -19,7 +19,11 @@ public class ContactFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return ContactListFragment.newInstance();
+        if(position == 0) {
+            return ContactListFragment.newInstance();
+        } else {
+            return CallLogsFragment.newInstance();
+        }
     }
 
     @Override
