@@ -29,7 +29,7 @@ public class PhoneNumberAdapter extends RecyclerView.Adapter<PhoneNumberAdapter.
 
     @Override
     public PhoneNumberViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_contact_row,parent,false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_phone_num_row,parent,false);
         return new PhoneNumberViewHolder(itemView);
     }
 
@@ -52,7 +52,7 @@ public class PhoneNumberAdapter extends RecyclerView.Adapter<PhoneNumberAdapter.
 
         public PhoneNumberViewHolder(View itemView) {
             super(itemView);
-            phoneNumberTv = (TextView) itemView.findViewById(R.id.contact_name);
+            phoneNumberTv = (TextView) itemView.findViewById(R.id.contact_number);
             phoneNumberTv.setOnClickListener(this);
             contactIcon = (ImageView) itemView.findViewById(R.id.contact_icon);
             contactIcon.setOnClickListener(this);
