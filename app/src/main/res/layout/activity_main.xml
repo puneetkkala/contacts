@@ -16,7 +16,7 @@
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Preparing the app" />
+        android:text="@string/preparing_the_app" />
     <ProgressBar
         android:id="@+id/loading_contacts_bar"
         android:indeterminate="true"
