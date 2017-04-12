@@ -8,7 +8,7 @@
         android:layout_margin="10dp"
         android:padding="5dp"
         android:id="@+id/edit_query_text"
-        android:hint="Search contact by name"
+        android:hint="@string/search_contact_by_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <android.support.v7.widget.RecyclerView
