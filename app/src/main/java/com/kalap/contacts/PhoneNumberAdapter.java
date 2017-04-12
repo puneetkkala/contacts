@@ -16,11 +16,6 @@ public class PhoneNumberAdapter extends RecyclerView.Adapter<PhoneNumberAdapter.
 
     private Activity activity;
     private ArrayList<String> phoneNumbers;
-    private OnClickListener onClickListener;
-
-    public void setOnClickListener(OnClickListener onClickListener) {
-        this.onClickListener = onClickListener;
-    }
 
     public PhoneNumberAdapter(Activity activity, ArrayList<String> phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
@@ -60,19 +55,12 @@ public class PhoneNumberAdapter extends RecyclerView.Adapter<PhoneNumberAdapter.
 
         @Override
         public void onClick(View view) {
-            int position = getPosition();
+            int position = getAdapterPosition();
             if(position > -1  && position < phoneNumbers.size()) {
                 Intent callIntent = new Intent(Intent.ACTION_CALL).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 callIntent.setData(Uri.parse("tel:"+phoneNumbers.get(position)));
                 activity.startActivity(callIntent);
-                if(onClickListener != null) {
-                    onClickListener.onClick();
-                }
             }
         }
-    }
-
-    public interface OnClickListener {
-        void onClick();
     }
 }
