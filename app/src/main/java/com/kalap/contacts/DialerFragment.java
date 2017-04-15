@@ -18,7 +18,7 @@ import android.widget.TextView;
  * Created by puneetkkala on 16/04/17.
  */
 
-public class DialerFragment extends Fragment implements View.OnClickListener {
+public class DialerFragment extends Fragment implements View.OnClickListener, View.OnLongClickListener {
 
     private TextView _1, _2, _3, _4, _5, _6, _7, _8, _9, _0, star, hash, phoneNumber;
     private ImageView call, backspace;
@@ -67,6 +67,7 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
         hash.setOnClickListener(this);
         call.setOnClickListener(this);
         backspace.setOnClickListener(this);
+        backspace.setOnLongClickListener(this);
         phoneNumber.setOnClickListener(this);
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_HIDDEN);
@@ -141,5 +142,16 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
             }
         }
         phoneNumber.setText(phoneNumberBuilder);
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        switch (v.getId()) {
+            case R.id.backspace: {
+                phoneNumber.setText("");
+                return true;
+            }
+        }
+        return false;
     }
 }
