@@ -134,7 +134,9 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
                 return;
             }
             case R.id.backspace: {
-                phoneNumberBuilder.deleteCharAt(phoneNumberBuilder.length()-1);
+                if (phoneNumberBuilder.length() > 0) {
+                    phoneNumberBuilder.deleteCharAt(phoneNumberBuilder.length() - 1);
+                }
                 break;
             }
         }
