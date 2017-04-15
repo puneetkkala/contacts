@@ -118,7 +118,7 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
                 break;
             }
             case R.id._hash: {
-                phoneNumberBuilder.append("*");
+                phoneNumberBuilder.append("#");
                 break;
             }
             case R.id._call: {
@@ -128,6 +128,10 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
                     callIntent.setData(Uri.parse("tel:"+data));
                     getActivity().startActivity(callIntent);
                 }
+                return;
+            }
+            case R.id.backspace: {
+                phoneNumberBuilder.deleteCharAt(phoneNumberBuilder.length()-1);
                 break;
             }
         }
