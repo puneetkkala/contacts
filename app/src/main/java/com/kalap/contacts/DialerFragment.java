@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +25,11 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
     private ImageView call, backspace;
     private StringBuilder phoneNumberBuilder;
 
-    public static DialerFragment newInstance() {
-
+    public static DialerFragment newInstance(Uri uri) {
         Bundle args = new Bundle();
-
+        if (uri != null) {
+            args.putString("data", uri.toString());
+        }
         DialerFragment fragment = new DialerFragment();
         fragment.setArguments(args);
         return fragment;
@@ -71,6 +73,16 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
         phoneNumber.setOnClickListener(this);
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_HIDDEN);
+        Bundle b = getArguments();
+        if (b != null) {
+            String data = b.getString("data");
+            if (data != null) {
+                data = data.substring(4);
+                phoneNumberBuilder = new StringBuilder();
+                phoneNumberBuilder.append(data);
+                phoneNumber.setText(phoneNumberBuilder);
+            }
+        }
         return view;
     }
 

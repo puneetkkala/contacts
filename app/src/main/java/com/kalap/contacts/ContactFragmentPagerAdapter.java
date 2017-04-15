@@ -1,5 +1,7 @@
 package com.kalap.contacts;
 
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -12,9 +14,11 @@ public class ContactFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private final int PAGE_COUNT = 3;
     private String tabTitles[] = new String[] {"DIAL", "RECENT","ALL"};
+    Uri data;
 
-    public ContactFragmentPagerAdapter(FragmentManager fm) {
+    public ContactFragmentPagerAdapter(FragmentManager fm, Uri data) {
         super(fm);
+        this.data = data;
     }
 
     @Override
@@ -24,7 +28,7 @@ public class ContactFragmentPagerAdapter extends FragmentPagerAdapter {
         } else if(position == 1) {
             return CallLogsFragment.newInstance();
         } else {
-            return DialerFragment.newInstance();
+            return DialerFragment.newInstance(data);
         }
     }
 
