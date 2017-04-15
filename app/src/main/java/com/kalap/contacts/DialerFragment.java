@@ -20,10 +20,9 @@ import android.widget.TextView;
 
 public class DialerFragment extends Fragment implements View.OnClickListener {
 
-    private TextView _1, _2, _3, _4, _5, _6, _7, _8, _9, _0, star, hash;
+    private TextView _1, _2, _3, _4, _5, _6, _7, _8, _9, _0, star, hash, phoneNumber;
     private ImageView call, backspace;
     private StringBuilder phoneNumberBuilder;
-    private EditText phoneNumber;
 
     public static DialerFragment newInstance() {
 
@@ -53,7 +52,7 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
         hash = (TextView) view.findViewById(R.id._hash);
         call = (ImageView) view.findViewById(R.id._call);
         backspace = (ImageView) view.findViewById(R.id.backspace);
-        phoneNumber = (EditText) view.findViewById(R.id.phone_number);
+        phoneNumber = (TextView) view.findViewById(R.id.phone_number);
         _1.setOnClickListener(this);
         _2.setOnClickListener(this);
         _3.setOnClickListener(this);
@@ -70,7 +69,7 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
         backspace.setOnClickListener(this);
         phoneNumber.setOnClickListener(this);
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_HIDDEN);
         return view;
     }
 
