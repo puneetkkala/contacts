@@ -10,8 +10,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class ContactFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    final int PAGE_COUNT = 2;
-    private String tabTitles[] = new String[] {"ALL","RECENT"};
+    private final int PAGE_COUNT = 3;
+    private String tabTitles[] = new String[] {"DIAL", "RECENT","ALL"};
 
     public ContactFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -19,8 +19,10 @@ public class ContactFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if(position == 0) {
+        if(position == 2) {
             return ContactListFragment.newInstance();
+        } else if(position == 1) {
+            return CallLogsFragment.newInstance();
         } else {
             return CallLogsFragment.newInstance();
         }
