@@ -1,5 +1,6 @@
 package com.kalap.contacts;
 
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -24,7 +25,7 @@ public class ContactFragmentPagerAdapter extends FragmentPagerAdapter {
         } else if(position == 1) {
             return CallLogsFragment.newInstance();
         } else {
-            return CallLogsFragment.newInstance();
+            return DialerFragment.newInstance();
         }
     }
 
