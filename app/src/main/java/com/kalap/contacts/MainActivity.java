@@ -80,6 +80,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                Crashlytics.logException(e);
+                e.printStackTrace();
+            }
+        });
         setContentView(R.layout.activity_main);
         TextView preparingApp = (TextView) findViewById(R.id.preparing_text_view);
         loadingContacts = (ProgressBar) findViewById(R.id.loading_contacts_bar);
