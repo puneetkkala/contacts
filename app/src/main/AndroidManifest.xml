@@ -28,5 +28,9 @@
                 <data android:scheme="tel" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="74d0f2a0c8b3ee6924c9675744f51cca187d8468" />
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

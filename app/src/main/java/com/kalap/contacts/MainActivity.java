@@ -16,9 +16,11 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.kalap.contacts.database.ContactsDatabaseHelper;
 import com.kalap.contacts.object.Contact;
 
+import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
         TextView preparingApp = (TextView) findViewById(R.id.preparing_text_view);
         loadingContacts = (ProgressBar) findViewById(R.id.loading_contacts_bar);
