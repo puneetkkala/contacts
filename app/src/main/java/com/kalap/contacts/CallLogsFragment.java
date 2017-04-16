@@ -3,6 +3,7 @@ package com.kalap.contacts;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.CallLog;
 import android.support.annotation.Nullable;
@@ -22,6 +23,10 @@ import java.util.Date;
 import java.util.Locale;
 
 public class CallLogsFragment extends Fragment {
+
+    private ArrayList<PhoneLog> phoneLogs;
+    private Cursor callLogsCursor;
+    private RecyclerView callLogs;
 
     public static CallLogsFragment newInstance() {
 
@@ -72,10 +77,27 @@ public class CallLogsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.call_logs_fragment,container,false);
-        RecyclerView callLogs = (RecyclerView) view.findViewById(R.id.call_logs);
+        callLogs = (RecyclerView) view.findViewById(R.id.call_logs);
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED) {
-            ArrayList<PhoneLog> phoneLogs = new ArrayList<>();
-            Cursor callLogsCursor = getActivity().getContentResolver().query(CallLog.Calls.CONTENT_URI, null, null, null, CallLog.Calls.DATE + " DESC", null);
+            phoneLogs = new ArrayList<>();
+            callLogsCursor = getActivity().getContentResolver().query(CallLog.Calls.CONTENT_URI, null, null, null, CallLog.Calls.DATE + " DESC", null);
+            if (callLogsCursor != null) {
+                CallLogsLoader callLogsLoader = new CallLogsLoader();
+                callLogsLoader.execute();
+            } else {
+                callLogs.setVisibility(View.GONE);
+            }
+        } else {
+            callLogs.setVisibility(View.GONE);
+            ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.READ_CALL_LOG},102);
+        }
+        return view;
+    }
+
+    private class CallLogsLoader extends AsyncTask<Cursor,String,String> {
+
+        @Override
+        protected String doInBackground(Cursor... params) {
             if (callLogsCursor != null) {
                 while (callLogsCursor.moveToNext()) {
                     PhoneLog phoneLog = new PhoneLog();
@@ -91,16 +113,16 @@ public class CallLogsFragment extends Fragment {
                     phoneLogs.add(phoneLog);
                 }
                 callLogsCursor.close();
-                CallLogAdapter callLogAdapter = new CallLogAdapter(getActivity(), phoneLogs);
-                callLogs.setAdapter(callLogAdapter);
-                callLogs.setLayoutManager(new LinearLayoutManager(getActivity()));
-            } else {
-                callLogs.setVisibility(View.GONE);
             }
-        } else {
-            callLogs.setVisibility(View.GONE);
-            ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.READ_CALL_LOG},102);
+            return null;
         }
-        return view;
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            CallLogAdapter callLogAdapter = new CallLogAdapter(getActivity(), phoneLogs);
+            callLogs.setAdapter(callLogAdapter);
+            callLogs.setLayoutManager(new LinearLayoutManager(getActivity()));
+        }
     }
 }
