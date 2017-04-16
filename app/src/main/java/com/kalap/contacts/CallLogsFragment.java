@@ -83,7 +83,7 @@ public class CallLogsFragment extends Fragment {
                     phoneLog.setNumber(callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.NUMBER)));
                     phoneLog.setType(getType(callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.TYPE))));
                     String date = callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.DATE));
-                    SimpleDateFormat format = new SimpleDateFormat("dd-MM-YYYY hh:mm:ss", Locale.getDefault());
+                    SimpleDateFormat format = new SimpleDateFormat("dd-MM-YYYY hh:mm:ss", Locale.ENGLISH);
                     String localDateTime = format.format(new Date(Long.valueOf(date)));
                     phoneLog.setDate(localDateTime);
                     String duration = calculateDuration(callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.DURATION)));
