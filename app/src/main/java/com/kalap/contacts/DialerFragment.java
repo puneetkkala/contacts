@@ -15,9 +15,8 @@ import android.widget.TextView;
 
 public class DialerFragment extends Fragment implements View.OnClickListener, View.OnLongClickListener {
 
-    private TextView _1, _2, _3, _4, _5, _6, _7, _8, _9, _0, star, hash, phoneNumber;
-    private ImageView call, backspace;
-    private StringBuilder phoneNumberBuilder;
+    private TextView phoneNumber;
+    private String phoneNumberStr;
 
     public static DialerFragment newInstance(Uri uri) {
         Bundle args = new Bundle();
@@ -33,21 +32,21 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialer_fragment,container,false);
-        phoneNumberBuilder = new StringBuilder("");
-        _1 = (TextView) view.findViewById(R.id._1);
-        _2 = (TextView) view.findViewById(R.id._2);
-        _3 = (TextView) view.findViewById(R.id._3);
-        _4 = (TextView) view.findViewById(R.id._4);
-        _5 = (TextView) view.findViewById(R.id._5);
-        _6 = (TextView) view.findViewById(R.id._6);
-        _7 = (TextView) view.findViewById(R.id._7);
-        _8 = (TextView) view.findViewById(R.id._8);
-        _9 = (TextView) view.findViewById(R.id._9);
-        _0 = (TextView) view.findViewById(R.id._0);
-        star = (TextView) view.findViewById(R.id._star);
-        hash = (TextView) view.findViewById(R.id._hash);
-        call = (ImageView) view.findViewById(R.id._call);
-        backspace = (ImageView) view.findViewById(R.id.backspace);
+        phoneNumberStr = "";
+        TextView _1 = (TextView) view.findViewById(R.id._1);
+        TextView _2 = (TextView) view.findViewById(R.id._2);
+        TextView _3 = (TextView) view.findViewById(R.id._3);
+        TextView _4 = (TextView) view.findViewById(R.id._4);
+        TextView _5 = (TextView) view.findViewById(R.id._5);
+        TextView _6 = (TextView) view.findViewById(R.id._6);
+        TextView _7 = (TextView) view.findViewById(R.id._7);
+        TextView _8 = (TextView) view.findViewById(R.id._8);
+        TextView _9 = (TextView) view.findViewById(R.id._9);
+        TextView _0 = (TextView) view.findViewById(R.id._0);
+        TextView star = (TextView) view.findViewById(R.id._star);
+        TextView hash = (TextView) view.findViewById(R.id._hash);
+        ImageView call = (ImageView) view.findViewById(R.id._call);
+        ImageView backspace = (ImageView) view.findViewById(R.id.backspace);
         phoneNumber = (TextView) view.findViewById(R.id.phone_number);
         _1.setOnClickListener(this);
         _2.setOnClickListener(this);
@@ -72,9 +71,8 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
             String data = b.getString("data");
             if (data != null) {
                 data = data.substring(4);
-                phoneNumberBuilder = new StringBuilder();
-                phoneNumberBuilder.append(data);
-                phoneNumber.setText(phoneNumberBuilder);
+                phoneNumberStr = data;
+                phoneNumber.setText(phoneNumberStr);
             }
         }
         return view;
@@ -84,77 +82,81 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id._1: {
-                phoneNumberBuilder.append("1");
+                phoneNumberStr += "1";
                 break;
             }
             case R.id._2: {
-                phoneNumberBuilder.append("2");
+                phoneNumberStr += "2";
                 break;
             }
             case R.id._3: {
-                phoneNumberBuilder.append("3");
+                phoneNumberStr += "3";
                 break;
             }
             case R.id._4: {
-                phoneNumberBuilder.append("4");
+                phoneNumberStr += "4";
                 break;
             }
             case R.id._5: {
-                phoneNumberBuilder.append("5");
+                phoneNumberStr += "5";
                 break;
             }
             case R.id._6: {
-                phoneNumberBuilder.append("6");
+                phoneNumberStr += "6";
                 break;
             }
             case R.id._7: {
-                phoneNumberBuilder.append("7");
+                phoneNumberStr += "7";
                 break;
             }
             case R.id._8: {
-                phoneNumberBuilder.append("8");
+                phoneNumberStr += "8";
                 break;
             }
             case R.id._9: {
-                phoneNumberBuilder.append("9");
+                phoneNumberStr += "9";
                 break;
             }
             case R.id._0: {
-                phoneNumberBuilder.append("0");
+                phoneNumberStr += "0";
                 break;
             }
             case R.id._star: {
-                phoneNumberBuilder.append("*");
+                phoneNumberStr += "*";
                 break;
             }
             case R.id._hash: {
-                phoneNumberBuilder.append("#");
+                phoneNumberStr += "#";
+                break;
+            }
+            case R.id._plus: {
+                phoneNumberStr += "+";
                 break;
             }
             case R.id._call: {
-                if (phoneNumberBuilder.length() > 0) {
-                    String data = "tel:" + phoneNumberBuilder.toString();
+                if (phoneNumberStr.length() > 0) {
+                    String data = "tel:" + phoneNumberStr;
                     Intent callIntent = new Intent(Intent.ACTION_CALL).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    callIntent.setData(Uri.parse("tel:"+data));
+                    callIntent.setData(Uri.parse(data));
                     getActivity().startActivity(callIntent);
                 }
                 return;
             }
             case R.id.backspace: {
-                if (phoneNumberBuilder.length() > 0) {
-                    phoneNumberBuilder.deleteCharAt(phoneNumberBuilder.length() - 1);
+                if (phoneNumberStr.length() > 0) {
+                    phoneNumberStr = phoneNumberStr.substring(0, phoneNumberStr.length() - 1);
                 }
                 break;
             }
         }
-        phoneNumber.setText(phoneNumberBuilder);
+        phoneNumber.setText(phoneNumberStr);
     }
 
     @Override
     public boolean onLongClick(View v) {
         switch (v.getId()) {
             case R.id.backspace: {
-                phoneNumberBuilder.delete(0,phoneNumberBuilder.length());
+                phoneNumberStr = "";
                 phoneNumber.setText("");
                 return true;
             }
