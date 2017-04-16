@@ -16,10 +16,6 @@ import com.kalap.contacts.object.PhoneLog;
 
 import java.util.ArrayList;
 
-/**
- * Created by puneetkkala on 12/04/17.
- */
-
 public class CallLogAdapter extends RecyclerView.Adapter<CallLogAdapter.CallLogViewHolder> {
 
     private ArrayList<PhoneLog> phoneLogs;
