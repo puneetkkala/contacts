@@ -21,13 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Created by puneetkkala on 12/04/17.
- */
-
 public class CallLogsFragment extends Fragment {
-
-    private RecyclerView callLogs;
 
     public static CallLogsFragment newInstance() {
 
@@ -78,7 +72,7 @@ public class CallLogsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.call_logs_fragment,container,false);
-        callLogs = (RecyclerView) view.findViewById(R.id.call_logs);
+        RecyclerView callLogs = (RecyclerView) view.findViewById(R.id.call_logs);
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED) {
             ArrayList<PhoneLog> phoneLogs = new ArrayList<>();
             Cursor callLogsCursor = getActivity().getContentResolver().query(CallLog.Calls.CONTENT_URI, null, null, null, CallLog.Calls.DATE + " DESC", null);
