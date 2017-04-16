@@ -5,15 +5,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-/**
- * Created by puneetkkala on 12/04/17.
- */
-
 public class ContactFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    private final int PAGE_COUNT = 3;
     private String tabTitles[] = new String[] {"DIAL", "RECENT","ALL"};
-    Uri data;
+    private Uri data;
 
     public ContactFragmentPagerAdapter(FragmentManager fm, Uri data) {
         super(fm);
@@ -33,7 +28,7 @@ public class ContactFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return PAGE_COUNT;
+        return 3;
     }
 
     @Override
