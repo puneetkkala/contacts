@@ -160,6 +160,7 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
     public boolean onLongClick(View v) {
         switch (v.getId()) {
             case R.id.backspace: {
+                phoneNumberBuilder.delete(0,phoneNumberBuilder.length());
                 phoneNumber.setText("");
                 return true;
             }
