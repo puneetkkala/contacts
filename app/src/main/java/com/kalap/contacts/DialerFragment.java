@@ -13,6 +13,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
+
 public class DialerFragment extends Fragment implements View.OnClickListener, View.OnLongClickListener {
 
     private TextView phoneNumber;
@@ -141,6 +144,13 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
                     getActivity().startActivity(callIntent);
                     phoneNumberStr = "";
                     phoneNumber.setText("");
+                    try {
+                        Answers.getInstance().logCustom(new CustomEvent("CALL BUTTON CLICKED")
+                                .putCustomAttribute("source","DialerFragment")
+                                .putCustomAttribute("version",BuildConfig.VERSION_NAME));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                 return;
             }

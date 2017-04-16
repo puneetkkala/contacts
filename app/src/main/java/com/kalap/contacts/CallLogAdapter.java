@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.kalap.contacts.object.PhoneLog;
 
 import java.util.ArrayList;
@@ -97,6 +99,13 @@ public class CallLogAdapter extends RecyclerView.Adapter<CallLogAdapter.CallLogV
                 Intent callIntent = new Intent(Intent.ACTION_CALL).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 callIntent.setData(Uri.parse("tel:"+phoneLog.getNumber()));
                 context.startActivity(callIntent);
+                try {
+                    Answers.getInstance().logCustom(new CustomEvent("CALL BUTTON CLICKED")
+                            .putCustomAttribute("source","CallLogFragment")
+                            .putCustomAttribute("version",BuildConfig.VERSION_NAME));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
