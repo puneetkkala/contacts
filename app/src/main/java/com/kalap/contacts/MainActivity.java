@@ -56,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
                                 contactHashMap.put(name,contact);
                             }
                         }
+                        cursor1.close();
                     }
-                    cursor1.close();
                     for (String name : contactHashMap.keySet()) {
                         ContactsDatabaseHelper helper = new ContactsDatabaseHelper(getApplicationContext());
                         helper.addContact(contactHashMap.get(name));
@@ -109,13 +109,14 @@ public class MainActivity extends AppCompatActivity {
                                 phNumList.add(phoneNum);
                                 contact.setPhoneNumberList(phNumList);
                             }
+                            contactHashMap.put(name,contact);
                         }
+                        cursor1.close();
                     }
                     for (String name : contactHashMap.keySet()) {
                         ContactsDatabaseHelper helper = new ContactsDatabaseHelper(getApplicationContext());
                         helper.addContact(contactHashMap.get(name));
                     }
-                    cursor1.close();
                     SharedPreferences sharedPreferences1 = getSharedPreferences("contactsPreferences", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences1.edit();
                     editor.putLong("lastFetchTime", System.currentTimeMillis());
