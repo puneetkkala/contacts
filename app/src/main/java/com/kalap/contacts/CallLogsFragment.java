@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import static android.R.attr.format;
+
 public class CallLogsFragment extends Fragment {
 
     private ArrayList<PhoneLog> phoneLogs;
@@ -105,9 +107,14 @@ public class CallLogsFragment extends Fragment {
                     phoneLog.setNumber(callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.NUMBER)));
                     phoneLog.setType(getType(callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.TYPE))));
                     String date = callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.DATE));
-                    SimpleDateFormat format = new SimpleDateFormat("dd-MM-YYYY hh:mm:ss", Locale.ENGLISH);
-                    String localDateTime = format.format(new Date(Long.valueOf(date)));
-                    phoneLog.setDate(localDateTime);
+                    try {
+                        SimpleDateFormat format = new SimpleDateFormat();
+                        format.applyPattern("dd-MM-YYYY hh:mm:ss");
+                        String localDateTime = format.format(new Date(Long.valueOf(date)));
+                        phoneLog.setDate(localDateTime);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     String duration = calculateDuration(callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.DURATION)));
                     phoneLog.setDuration(duration);
                     phoneLogs.add(phoneLog);
