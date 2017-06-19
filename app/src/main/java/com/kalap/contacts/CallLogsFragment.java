@@ -15,8 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.crashlytics.android.Crashlytics;
 import com.kalap.contacts.object.PhoneLog;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -108,8 +110,8 @@ public class CallLogsFragment extends Fragment {
                     phoneLog.setType(getType(callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.TYPE))));
                     String date = callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.DATE));
                     try {
-                        SimpleDateFormat format = new SimpleDateFormat();
-                        format.applyPattern("dd-MM-YYYY hh:mm:ss");
+                        SimpleDateFormat format = (SimpleDateFormat) DateFormat.getDateInstance(DateFormat.FULL);
+                        format.applyPattern("dd-MM-yyyy hh:mm:ss");
                         String localDateTime = format.format(new Date(Long.valueOf(date)));
                         phoneLog.setDate(localDateTime);
                     } catch (Exception e) {
