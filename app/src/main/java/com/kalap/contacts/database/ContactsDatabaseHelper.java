@@ -53,6 +53,7 @@ public class ContactsDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(TAG_PHONE_NUM,getCommaSeperatedList(contact.getPhoneNumberList()));
         SQLiteDatabase db = this.getWritableDatabase();
         db.insert(CONTACTS_TABLE,null,contentValues);
+        db.close();
     }
 
     private ArrayList<String> getArrayList(String phNumComma) {
@@ -77,6 +78,7 @@ public class ContactsDatabaseHelper extends SQLiteOpenHelper {
                 contacts.add(contact);
             } while (cursor.moveToNext());
         }
+        db.close();
         return contacts;
     }
 }
