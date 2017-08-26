@@ -8,7 +8,7 @@ import android.os.Looper;
 import android.provider.CallLog;
 import android.support.v4.app.ActivityCompat;
 
-import com.kalap.contacts.database.CallLogLoadListener;
+import com.kalap.contacts.listeners.CallLogLoadListener;
 import com.kalap.contacts.object.PhoneLog;
 
 import java.text.DateFormat;

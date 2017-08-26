@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kalap.contacts.adapters.CallLogAdapter;
-import com.kalap.contacts.database.CallLogLoadListener;
+import com.kalap.contacts.listeners.CallLogLoadListener;
 import com.kalap.contacts.executors.CallLogExecutor;
 import com.kalap.contacts.object.PhoneLog;
 
