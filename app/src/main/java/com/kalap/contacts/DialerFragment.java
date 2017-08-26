@@ -15,11 +15,18 @@ import android.widget.TextView;
 
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
+import com.kalap.contacts.database.ContactsDatabaseHelper;
+import com.kalap.contacts.object.Contact;
+
+import java.util.ArrayList;
 
 public class DialerFragment extends Fragment implements View.OnClickListener, View.OnLongClickListener {
 
     private TextView phoneNumber;
     private String phoneNumberStr;
+    private String t9Pattern = ".*.*";
+    private ArrayList<Contact> allContacts;
+    private ArrayList<Contact> displayContacts;
 
     public static DialerFragment newInstance(Uri uri) {
         Bundle args = new Bundle();
@@ -80,7 +87,25 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
                 phoneNumber.setText(phoneNumberStr);
             }
         }
+        ContactsDatabaseHelper helper = new ContactsDatabaseHelper(getActivity());
+        allContacts = helper.getAllContacts();
         return view;
+    }
+
+    private void matchPattern() {
+        displayContacts = new ArrayList<>();
+        if (allContacts != null) {
+            for (Contact contact: allContacts) {
+                if (contact.getName() != null) {
+                    if (contact.getName().matches(t9Pattern)) {
+                        displayContacts.add(contact);
+                    }
+                    if (displayContacts.size() == 10) {
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -92,34 +117,50 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
             }
             case R.id._2: {
                 phoneNumberStr += "2";
+                t9Pattern = t9Pattern.substring(0,t9Pattern.length() - 2) + "[abc].*";
+                matchPattern();
                 break;
             }
             case R.id._3: {
                 phoneNumberStr += "3";
+                t9Pattern = t9Pattern.substring(0,t9Pattern.length() - 2) + "[def].*";
+                matchPattern();
                 break;
             }
             case R.id._4: {
                 phoneNumberStr += "4";
+                t9Pattern = t9Pattern.substring(0,t9Pattern.length() - 2) + "[ghi].*";
+                matchPattern();
                 break;
             }
             case R.id._5: {
                 phoneNumberStr += "5";
+                t9Pattern = t9Pattern.substring(0,t9Pattern.length() - 2) + "[jkl].*";
+                matchPattern();
                 break;
             }
             case R.id._6: {
                 phoneNumberStr += "6";
+                t9Pattern = t9Pattern.substring(0,t9Pattern.length() - 2) + "[mno].*";
+                matchPattern();
                 break;
             }
             case R.id._7: {
                 phoneNumberStr += "7";
+                t9Pattern = t9Pattern.substring(0,t9Pattern.length() - 2) + "[pqrs].*";
+                matchPattern();
                 break;
             }
             case R.id._8: {
                 phoneNumberStr += "8";
+                t9Pattern = t9Pattern.substring(0,t9Pattern.length() - 2) + "[tuv].*";
+                matchPattern();
                 break;
             }
             case R.id._9: {
                 phoneNumberStr += "9";
+                t9Pattern = t9Pattern.substring(0,t9Pattern.length() - 2) + "[wxyz].*";
+                matchPattern();
                 break;
             }
             case R.id._0: {
@@ -172,6 +213,8 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
             case R.id.backspace: {
                 phoneNumberStr = "";
                 phoneNumber.setText("");
+                t9Pattern = ".*.*";
+                displayContacts.clear();
                 return true;
             }
         }
