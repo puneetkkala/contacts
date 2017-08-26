@@ -16,4 +16,8 @@
     <string name="hash">#</string>
     <string name="plus">+</string>
     <string name="contacts">Contacts</string>
+    <string name="dial">Dial</string>
+    <string name="recent">Recent</string>
+    <string name="all">All</string>
+    <string name="share">Share</string>
 </resources>
