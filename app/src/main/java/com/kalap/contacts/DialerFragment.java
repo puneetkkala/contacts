@@ -48,6 +48,7 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
         TextView _0 = (TextView) view.findViewById(R.id._0);
         TextView star = (TextView) view.findViewById(R.id._star);
         TextView hash = (TextView) view.findViewById(R.id._hash);
+        TextView plus = (TextView) view.findViewById(R.id._plus);
         ImageView call = (ImageView) view.findViewById(R.id._call);
         ImageView backspace = (ImageView) view.findViewById(R.id.backspace);
         phoneNumber = (TextView) view.findViewById(R.id.phone_number);
@@ -63,6 +64,7 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
         _0.setOnClickListener(this);
         star.setOnClickListener(this);
         hash.setOnClickListener(this);
+        plus.setOnClickListener(this);
         call.setOnClickListener(this);
         backspace.setOnClickListener(this);
         backspace.setOnLongClickListener(this);
