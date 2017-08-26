@@ -1,13 +1,7 @@
 package com.kalap.contacts;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.CallLog;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,17 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kalap.contacts.adapters.CallLogAdapter;
+import com.kalap.contacts.database.CallLogLoadListener;
+import com.kalap.contacts.executors.CallLogExecutor;
 import com.kalap.contacts.object.PhoneLog;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
-public class CallLogsFragment extends Fragment {
+public class CallLogsFragment extends Fragment implements CallLogLoadListener {
 
-    private ArrayList<PhoneLog> phoneLogs;
-    private Cursor callLogsCursor;
     private RecyclerView callLogs;
 
     public static CallLogsFragment newInstance() {
@@ -38,97 +29,21 @@ public class CallLogsFragment extends Fragment {
         return fragment;
     }
 
-    private String getType(String typeNum) {
-        switch (Integer.valueOf(typeNum)) {
-            case 1:
-                return "INCOMING";
-            case 2:
-                return "OUTGOING";
-            case 3:
-                return "MISSED";
-            case 4:
-                return "VOICEMAIL";
-            case 5:
-                return "REJECTED";
-            case 6:
-                return "BLOCKED";
-            default:
-                return null;
-        }
-    }
-
-    private String getTimeUnit(int num) {
-        return String.valueOf(num).length() == 1 ? "0" + num : String.valueOf(num);
-    }
-
-    private String calculateDuration(String duration) {
-        int durationSec = Integer.valueOf(duration);
-        int min = durationSec / 60;
-        int sec = durationSec % 60;
-        if (min >= 60) {
-            int hour = min / 60;
-            min %= 60;
-            return  getTimeUnit(hour)+ ":" + getTimeUnit(min) + ":" + getTimeUnit(sec);
-        } else {
-            return "00:" + getTimeUnit(min) + ":" + getTimeUnit(sec);
-        }
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.call_logs_fragment,container,false);
         callLogs = (RecyclerView) view.findViewById(R.id.call_logs);
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED) {
-            phoneLogs = new ArrayList<>();
-            callLogsCursor = getActivity().getContentResolver().query(CallLog.Calls.CONTENT_URI, null, null, null, CallLog.Calls.DATE + " DESC", null);
-            if (callLogsCursor != null) {
-                CallLogsLoader callLogsLoader = new CallLogsLoader();
-                callLogsLoader.execute();
-            } else {
-                callLogs.setVisibility(View.GONE);
-            }
-        } else {
-            callLogs.setVisibility(View.GONE);
-            ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.READ_CALL_LOG},102);
-        }
+        CallLogExecutor executor = new CallLogExecutor();
+        executor.setListener(this);
+        executor.loadCallLogs(getActivity());
         return view;
     }
 
-    private class CallLogsLoader extends AsyncTask<Cursor,String,String> {
-
-        @Override
-        protected String doInBackground(Cursor... params) {
-            if (callLogsCursor != null) {
-                while (callLogsCursor.moveToNext()) {
-                    PhoneLog phoneLog = new PhoneLog();
-                    phoneLog.setName(callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.CACHED_NAME)));
-                    phoneLog.setNumber(callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.NUMBER)));
-                    phoneLog.setType(getType(callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.TYPE))));
-                    String date = callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.DATE));
-                    try {
-                        SimpleDateFormat format = (SimpleDateFormat) DateFormat.getDateInstance(DateFormat.FULL);
-                        format.applyPattern("dd-MM-yyyy hh:mm:ss");
-                        String localDateTime = format.format(new Date(Long.valueOf(date)));
-                        phoneLog.setDate(localDateTime);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    String duration = calculateDuration(callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.DURATION)));
-                    phoneLog.setDuration(duration);
-                    phoneLogs.add(phoneLog);
-                }
-                callLogsCursor.close();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            CallLogAdapter callLogAdapter = new CallLogAdapter(getActivity(), phoneLogs);
-            callLogs.setAdapter(callLogAdapter);
-            callLogs.setLayoutManager(new LinearLayoutManager(getActivity()));
-        }
+    @Override
+    public void onCallLogLoaded(ArrayList<PhoneLog> phoneLogs) {
+        CallLogAdapter callLogAdapter = new CallLogAdapter(getActivity(), phoneLogs);
+        callLogs.setAdapter(callLogAdapter);
+        callLogs.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 }

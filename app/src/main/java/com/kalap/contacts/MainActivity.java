@@ -79,8 +79,13 @@ public class MainActivity extends AppCompatActivity implements ContactsLoadListe
 
     @Override
     public void onContactsLoaded() {
-        loadingContacts.setVisibility(View.INVISIBLE);
-        startActivity(new Intent(MainActivity.this,ContactActivity.class));
-        finish();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                loadingContacts.setVisibility(View.INVISIBLE);
+                startActivity(new Intent(MainActivity.this,ContactActivity.class));
+                finish();
+            }
+        });
     }
 }

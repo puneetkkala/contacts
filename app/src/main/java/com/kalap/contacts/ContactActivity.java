@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -16,6 +17,7 @@ public class ContactActivity extends AppCompatActivity {
 
     public static final String TAG = "ContactActivity";
     private static final int CALL_PHONE_REQUEST = 102;
+    private ContactFragmentPagerAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -26,9 +28,21 @@ public class ContactActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(ContactActivity.this,new String[] {Manifest.permission.CALL_PHONE},CALL_PHONE_REQUEST);
         }
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
-        viewPager.setAdapter(new ContactFragmentPagerAdapter(getSupportFragmentManager(), data));
+        adapter = new ContactFragmentPagerAdapter(getSupportFragmentManager(), data);
+        viewPager.setAdapter(adapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 103: {
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
     }
 }
