@@ -7,6 +7,12 @@ public class Contact {
     String name;
     ArrayList<String> phoneNumberList;
 
+    public Contact() {
+        id = "";
+        name = "";
+        phoneNumberList = new ArrayList<>();
+    }
+
     public String getId() {
         return id;
     }

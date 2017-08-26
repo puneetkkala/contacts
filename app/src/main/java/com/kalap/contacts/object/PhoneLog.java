@@ -12,6 +12,14 @@ public class PhoneLog {
     public String date;
     public String duration;
 
+    public PhoneLog() {
+        name = "";
+        number = "";
+        type = "";
+        date = "";
+        duration = "";
+    }
+
     public String getName() {
         return name;
     }

@@ -43,26 +43,29 @@ public class CallLogAdapter extends RecyclerView.Adapter<CallLogAdapter.CallLogV
             } else {
                 holder.contactName.setText(phoneLog.getName());
             }
-            holder.typeDate.setText(phoneLog.getType() + ", " + phoneLog.getDate());
-            switch (phoneLog.getType()) {
-                case "REJECTED":
-                case "INCOMING": {
-                    holder.typeDate.setTextColor(Color.parseColor("#2196F3"));
-                    break;
-                }
-                case "OUTGOING": {
-                    holder.typeDate.setTextColor(Color.parseColor("#4CAF50"));
-                    break;
-                }
-                case "MISSED": {
-                    holder.typeDate.setTextColor(Color.parseColor("#F44336"));
-                    break;
-                }
-                case "VOICEMAIL":
-                case "BLOCKED":
-                default: {
-                    holder.typeDate.setTextColor(Color.BLACK);
-                    break;
+            String typeDate = phoneLog.getType() + ", " + phoneLog.getDate();
+            holder.typeDate.setText(typeDate);
+            if (phoneLog.getType() != null) {
+                switch (phoneLog.getType()) {
+                    case "REJECTED":
+                    case "INCOMING": {
+                        holder.typeDate.setTextColor(Color.parseColor("#2196F3"));
+                        break;
+                    }
+                    case "OUTGOING": {
+                        holder.typeDate.setTextColor(Color.parseColor("#4CAF50"));
+                        break;
+                    }
+                    case "MISSED": {
+                        holder.typeDate.setTextColor(Color.parseColor("#F44336"));
+                        break;
+                    }
+                    case "VOICEMAIL":
+                    case "BLOCKED":
+                    default: {
+                        holder.typeDate.setTextColor(Color.BLACK);
+                        break;
+                    }
                 }
             }
             holder.duration.setText(phoneLog.getDuration());
