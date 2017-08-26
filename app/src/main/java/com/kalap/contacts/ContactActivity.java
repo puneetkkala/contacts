@@ -11,9 +11,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
-public class ContactActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class ContactActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private static final int CALL_PHONE_REQUEST = 102;
     private Uri data;
@@ -23,6 +26,10 @@ public class ContactActivity extends AppCompatActivity implements BottomNavigati
         super.onCreate(savedInstance);
         data = getIntent().getData();
         setContentView(R.layout.activity_contact);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        AppCompatImageView share = (AppCompatImageView) findViewById(R.id.share);
+        share.setOnClickListener(this);
         if (ContextCompat.checkSelfPermission(ContactActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(ContactActivity.this, new String[]{Manifest.permission.CALL_PHONE}, CALL_PHONE_REQUEST);
         }
@@ -68,5 +75,10 @@ public class ContactActivity extends AppCompatActivity implements BottomNavigati
             newFragment = ContactListFragment.newInstance();
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, newFragment).commit();
+    }
+
+    @Override
+    public void onClick(View v) {
+        shareApp();
     }
 }
