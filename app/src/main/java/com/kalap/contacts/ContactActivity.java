@@ -10,29 +10,20 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatImageView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.kalap.contacts.adapters.ContactFragmentPagerAdapter;
 
 public class ContactActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public static final String TAG = "ContactActivity";
     private static final int CALL_PHONE_REQUEST = 102;
     private ContactFragmentPagerAdapter adapter;
-    private Toolbar toolbar;
-    private AppCompatImageView share;
 
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         Uri data = getIntent().getData();
         setContentView(R.layout.activity_contact);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        share = (AppCompatImageView) findViewById(R.id.share);
-        share.setOnClickListener(this);
         if(ContextCompat.checkSelfPermission(ContactActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(ContactActivity.this,new String[] {Manifest.permission.CALL_PHONE},CALL_PHONE_REQUEST);
         }
