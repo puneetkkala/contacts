@@ -69,6 +69,8 @@ public class CallLogAdapter extends RecyclerView.Adapter<CallLogAdapter.CallLogV
                         break;
                     }
                 }
+            } else {
+                holder.typeDate.setTextColor(Color.BLACK);
             }
             holder.duration.setText(phoneLog.getDuration());
             holder.duration.setTextColor(Color.parseColor("#9E9E9E"));

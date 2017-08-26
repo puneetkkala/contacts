@@ -41,9 +41,14 @@ public class CallLogsFragment extends Fragment implements CallLogLoadListener {
     }
 
     @Override
-    public void onCallLogLoaded(ArrayList<PhoneLog> phoneLogs) {
-        CallLogAdapter callLogAdapter = new CallLogAdapter(getActivity(), phoneLogs);
-        callLogs.setAdapter(callLogAdapter);
-        callLogs.setLayoutManager(new LinearLayoutManager(getActivity()));
+    public void onCallLogLoaded(final ArrayList<PhoneLog> phoneLogs) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                CallLogAdapter callLogAdapter = new CallLogAdapter(getActivity(), phoneLogs);
+                callLogs.setAdapter(callLogAdapter);
+                callLogs.setLayoutManager(new LinearLayoutManager(getActivity()));
+            }
+        });
     }
 }
