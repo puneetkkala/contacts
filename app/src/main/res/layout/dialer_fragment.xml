@@ -7,8 +7,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"></LinearLayout>
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <View
         android:layout_width="match_parent"
@@ -18,32 +18,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/phone_number"
                 android:gravity="center"
                 tools:text="07314007242"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:background="@color/transparent"
                 android:enabled="false"
-                android:padding="5dp"
+                android:padding="8dp"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
 
-            <ImageView
+            <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/backspace"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -64,41 +63,41 @@
             android:orientation="horizontal"
             android:weightSum="3">
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:textSize="20sp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="5dp"
                 android:text="@string/_1"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textColor="@color/black" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:textSize="20sp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="5dp"
                 android:text="@string/_2"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textColor="@color/black" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="5dp"
+                android:padding="8dp"
                 android:text="@string/_3"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -107,41 +106,41 @@
             android:orientation="horizontal"
             android:weightSum="3">
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/_4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="5dp"
+                android:padding="8dp"
                 android:text="@string/_4"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/_5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="5dp"
+                android:padding="8dp"
                 android:text="@string/_5"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/_6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:textSize="20sp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="5dp"
                 android:text="@string/_6"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textColor="@color/black" />
         </LinearLayout>
 
         <LinearLayout
@@ -150,41 +149,41 @@
             android:orientation="horizontal"
             android:weightSum="3">
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/_7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:textSize="20sp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="5dp"
                 android:text="@string/_7"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textColor="@color/black" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/_8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:textSize="20sp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="5dp"
                 android:text="@string/_8"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textColor="@color/black" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/_9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:textSize="20sp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="5dp"
                 android:text="@string/_9"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textColor="@color/black" />
         </LinearLayout>
 
         <LinearLayout
@@ -193,41 +192,41 @@
             android:orientation="horizontal"
             android:weightSum="3">
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/_star"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:textSize="20sp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="5dp"
                 android:text="@string/star"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textColor="@color/black" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/_0"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:textSize="20sp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="5dp"
                 android:text="@string/_0"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textColor="@color/black" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/_hash"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:textSize="20sp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="5dp"
                 android:text="@string/hash"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textColor="@color/black" />
         </LinearLayout>
 
         <LinearLayout
@@ -236,40 +235,40 @@
             android:orientation="horizontal"
             android:weightSum="3">
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/_plus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:textSize="20sp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="5dp"
                 android:text="@string/plus"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textColor="@color/black" />
 
-            <ImageView
+            <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/_call"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:textSize="20sp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="5dp"
                 android:src="@drawable/ic_call_teal_24dp"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textColor="@color/black" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:textSize="20sp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="5dp"
                 android:text=""
-                android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textColor="@color/black" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
