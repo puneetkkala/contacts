@@ -54,10 +54,6 @@ public class ContactActivity extends AppCompatActivity implements BottomNavigati
                 changeFragment(2);
                 return true;
             }
-//            case R.id.action_share: {
-//                shareApp();
-//                return true;
-//            }
         }
         return false;
     }
