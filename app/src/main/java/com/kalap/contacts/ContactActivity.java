@@ -9,17 +9,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.EditText;
 
-import com.kalap.contacts.database.ContactsDatabaseHelper;
-import com.kalap.contacts.object.Contact;
-
-import java.util.ArrayList;
-import java.util.TreeMap;
+import com.kalap.contacts.adapters.ContactFragmentPagerAdapter;
 
 public class ContactActivity extends AppCompatActivity {
 

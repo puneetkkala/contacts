@@ -15,16 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.crashlytics.android.Crashlytics;
+import com.kalap.contacts.adapters.CallLogAdapter;
 import com.kalap.contacts.object.PhoneLog;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
-
-import static android.R.attr.format;
 
 public class CallLogsFragment extends Fragment {
 

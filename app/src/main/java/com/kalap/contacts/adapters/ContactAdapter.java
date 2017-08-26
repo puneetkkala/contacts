@@ -1,4 +1,4 @@
-package com.kalap.contacts;
+package com.kalap.contacts.adapters;
 
 import android.app.Activity;
 import android.support.design.widget.Snackbar;
@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.kalap.contacts.R;
 import com.kalap.contacts.object.Contact;
 
 import java.util.ArrayList;

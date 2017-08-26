@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.kalap.contacts.adapters.ContactAdapter;
 import com.kalap.contacts.database.ContactsDatabaseHelper;
 import com.kalap.contacts.object.Contact;
 

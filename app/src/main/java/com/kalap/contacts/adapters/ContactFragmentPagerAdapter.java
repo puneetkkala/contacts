@@ -1,9 +1,13 @@
-package com.kalap.contacts;
+package com.kalap.contacts.adapters;
 
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.kalap.contacts.CallLogsFragment;
+import com.kalap.contacts.ContactListFragment;
+import com.kalap.contacts.DialerFragment;
 
 public class ContactFragmentPagerAdapter extends FragmentPagerAdapter {
 

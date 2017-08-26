@@ -1,4 +1,4 @@
-package com.kalap.contacts;
+package com.kalap.contacts.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
+import com.kalap.contacts.BuildConfig;
+import com.kalap.contacts.R;
 import com.kalap.contacts.object.PhoneLog;
 
 import java.util.ArrayList;
@@ -105,7 +107,7 @@ public class CallLogAdapter extends RecyclerView.Adapter<CallLogAdapter.CallLogV
                 try {
                     Answers.getInstance().logCustom(new CustomEvent("CALL BUTTON CLICKED")
                             .putCustomAttribute("source","CallLogFragment")
-                            .putCustomAttribute("version",BuildConfig.VERSION_NAME));
+                            .putCustomAttribute("version", BuildConfig.VERSION_NAME));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
