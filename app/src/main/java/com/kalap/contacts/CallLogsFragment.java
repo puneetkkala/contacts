@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class CallLogsFragment extends Fragment implements CallLogLoadListener {
 
     private RecyclerView callLogs;
+    private ArrayList<PhoneLog> phoneLogs;
 
     public static CallLogsFragment newInstance() {
 
@@ -37,11 +38,12 @@ public class CallLogsFragment extends Fragment implements CallLogLoadListener {
         CallLogExecutor executor = new CallLogExecutor();
         executor.setListener(this);
         executor.loadCallLogs(getActivity());
+        phoneLogs = new ArrayList<>();
+        resetAdapter();
         return view;
     }
 
-    @Override
-    public void onCallLogLoaded(final ArrayList<PhoneLog> phoneLogs) {
+    private void resetAdapter() {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -50,5 +52,10 @@ public class CallLogsFragment extends Fragment implements CallLogLoadListener {
                 callLogs.setLayoutManager(new LinearLayoutManager(getActivity()));
             }
         });
+    }
+
+    @Override
+    public void onCallLogLoaded(final ArrayList<PhoneLog> phoneLogs) {
+        this.phoneLogs = phoneLogs;
     }
 }
