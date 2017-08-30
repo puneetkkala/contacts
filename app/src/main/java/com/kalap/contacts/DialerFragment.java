@@ -226,7 +226,7 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
             case R.id.backspace: {
                 phoneNumberStr = "";
                 phoneNumber.setText("");
-                t9Pattern = ".*.*";
+                t9Pattern = ".*";
                 displayContacts.clear();
                 return true;
             }
