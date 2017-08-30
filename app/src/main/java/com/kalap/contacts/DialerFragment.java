@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,18 +17,21 @@ import android.widget.TextView;
 
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
+import com.kalap.contacts.adapters.ContactAdapter;
 import com.kalap.contacts.database.ContactsDatabaseHelper;
 import com.kalap.contacts.object.Contact;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 public class DialerFragment extends Fragment implements View.OnClickListener, View.OnLongClickListener {
 
     private TextView phoneNumber;
+    private RecyclerView contactsRv;
     private String phoneNumberStr;
     private String t9Pattern = ".*.*";
     private ArrayList<Contact> allContacts;
-    private ArrayList<Contact> displayContacts;
+    private TreeMap<String,Contact> displayContacts;
 
     public static DialerFragment newInstance(Uri uri) {
         Bundle args = new Bundle();
@@ -59,6 +64,7 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
         ImageView call = (ImageView) view.findViewById(R.id._call);
         ImageView backspace = (ImageView) view.findViewById(R.id.backspace);
         phoneNumber = (TextView) view.findViewById(R.id.phone_number);
+        contactsRv = (RecyclerView) view.findViewById(R.id.contacts_rv);
         _1.setOnClickListener(this);
         _2.setOnClickListener(this);
         _3.setOnClickListener(this);
@@ -93,18 +99,21 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
     }
 
     private void matchPattern() {
-        displayContacts = new ArrayList<>();
+        displayContacts = new TreeMap<>();
         if (allContacts != null) {
             for (Contact contact: allContacts) {
                 if (contact.getName() != null) {
                     if (contact.getName().matches(t9Pattern)) {
-                        displayContacts.add(contact);
+                        displayContacts.put(contact.getName(),contact);
                     }
                     if (displayContacts.size() == 10) {
                         break;
                     }
                 }
             }
+            contactsRv.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+            ContactAdapter adapter = new ContactAdapter(getActivity(),displayContacts);
+            contactsRv.setAdapter(adapter);
         }
     }
 
