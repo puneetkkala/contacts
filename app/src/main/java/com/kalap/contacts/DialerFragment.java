@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,6 +34,7 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
     private String t9Pattern = ".*";
     private ArrayList<Contact> allContacts;
     private TreeMap<String,Contact> displayContacts;
+    private ContactAdapter adapter;
 
     public static DialerFragment newInstance(Uri uri) {
         Bundle args = new Bundle();
@@ -96,26 +98,34 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
         }
         ContactsDatabaseHelper helper = new ContactsDatabaseHelper(getActivity());
         allContacts = helper.getAllContacts();
+        displayContacts = new TreeMap<>();
+        contactsRv.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+        adapter = new ContactAdapter(getActivity(),displayContacts);
+        contactsRv.setAdapter(adapter);
         return view;
     }
 
     private void matchPattern() {
-        displayContacts = new TreeMap<>();
-        if (allContacts != null) {
-            for (Contact contact: allContacts) {
-                if (contact.getName() != null) {
-                    if (contact.getName().toLowerCase().matches(t9Pattern)) {
-                        displayContacts.put(contact.getName(),contact);
-                    }
-                    if (displayContacts.size() == 10) {
-                        break;
+        Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                displayContacts.clear();
+                if (allContacts != null) {
+                    for (Contact contact: allContacts) {
+                        if (contact.getName() != null) {
+                            if (contact.getName().toLowerCase().matches(t9Pattern)) {
+                                displayContacts.put(contact.getName(),contact);
+                            }
+                            if (displayContacts.size() == 10) {
+                                break;
+                            }
+                        }
                     }
                 }
+                adapter.updateData(displayContacts);
             }
-            contactsRv.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
-            ContactAdapter adapter = new ContactAdapter(getActivity(),displayContacts);
-            contactsRv.setAdapter(adapter);
-        }
+        });
     }
 
     @Override
@@ -213,7 +223,6 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
                     if (t9Pattern.length() > 2) {
                         int start = t9Pattern.lastIndexOf('[');
                         t9Pattern = t9Pattern.substring(0,start) + ".*";
-                        Log.e("dialer",t9Pattern);
                         matchPattern();
                     }
                 }

@@ -27,6 +27,12 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         this.contactNames = new ArrayList<>(contactTreeMap.keySet());
     }
 
+    public void updateData(TreeMap<String,Contact> contactTreeMap) {
+        this.contactTreeMap = contactTreeMap;
+        this.contactNames = new ArrayList<>(contactTreeMap.keySet());
+        notifyDataSetChanged();
+    }
+
     @Override
     public ContactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_contact_row,parent,false);
