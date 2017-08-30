@@ -29,7 +29,7 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
     private TextView phoneNumber;
     private RecyclerView contactsRv;
     private String phoneNumberStr;
-    private String t9Pattern = ".*.*";
+    private String t9Pattern = ".*";
     private ArrayList<Contact> allContacts;
     private TreeMap<String,Contact> displayContacts;
 
@@ -103,7 +103,7 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
         if (allContacts != null) {
             for (Contact contact: allContacts) {
                 if (contact.getName() != null) {
-                    if (contact.getName().matches(t9Pattern)) {
+                    if (contact.getName().toLowerCase().matches(t9Pattern)) {
                         displayContacts.put(contact.getName(),contact);
                     }
                     if (displayContacts.size() == 10) {
@@ -209,6 +209,10 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
             case R.id.backspace: {
                 if (phoneNumberStr.length() > 0) {
                     phoneNumberStr = phoneNumberStr.substring(0, phoneNumberStr.length() - 1);
+                    if (t9Pattern.length() > 2) {
+                        t9Pattern = t9Pattern.substring(0, t9Pattern.length() - 7) + ".*";
+                        matchPattern();
+                    }
                 }
                 break;
             }
