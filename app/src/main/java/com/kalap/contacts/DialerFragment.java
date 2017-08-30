@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -210,9 +211,9 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
                 if (phoneNumberStr.length() > 0) {
                     phoneNumberStr = phoneNumberStr.substring(0, phoneNumberStr.length() - 1);
                     if (t9Pattern.length() > 2) {
-                        int end = t9Pattern.lastIndexOf(']');
                         int start = t9Pattern.lastIndexOf('[');
-                        t9Pattern = t9Pattern.substring(0,start) + t9Pattern.substring(end) + ".*";
+                        t9Pattern = t9Pattern.substring(0,start) + ".*";
+                        Log.e("dialer",t9Pattern);
                         matchPattern();
                     }
                 }
