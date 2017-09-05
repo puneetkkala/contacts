@@ -4,12 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,20 +19,19 @@ import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 import com.kalap.contacts.adapters.ContactAdapter;
 import com.kalap.contacts.database.ContactsDatabaseHelper;
+import com.kalap.contacts.executors.T9Executor;
 import com.kalap.contacts.object.Contact;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
 
-public class DialerFragment extends Fragment implements View.OnClickListener, View.OnLongClickListener {
+public class DialerFragment extends Fragment implements View.OnClickListener, View.OnLongClickListener, T9Executor.T9SearchCompleteListener {
 
     private TextView phoneNumber;
-    private RecyclerView contactsRv;
     private String phoneNumberStr;
-    private String t9Pattern = ".*";
     private ArrayList<Contact> allContacts;
-    private TreeMap<String,Contact> displayContacts;
     private ContactAdapter adapter;
+    private RecyclerView contactsRv;
 
     public static DialerFragment newInstance(Uri uri) {
         Bundle args = new Bundle();
@@ -98,50 +95,16 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
         }
         ContactsDatabaseHelper helper = new ContactsDatabaseHelper(getActivity());
         allContacts = helper.getAllContacts();
-        displayContacts = new TreeMap<>();
         contactsRv.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
-        adapter = new ContactAdapter(getActivity(),displayContacts);
+        adapter = new ContactAdapter(getActivity(),new TreeMap<String, Contact>());
         contactsRv.setAdapter(adapter);
         return view;
     }
 
     private void matchPattern() {
-        Handler handler = new Handler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                String tempStr = phoneNumberStr;
-                t9Pattern = tempStr
-                .replaceAll("1","")
-                .replaceAll("2","[abc]")
-                .replaceAll("3","[def]")
-                .replaceAll("4","[ghi]")
-                .replaceAll("5","[jkl]")
-                .replaceAll("6","[mno]")
-                .replaceAll("4","[pqrs]")
-                .replaceAll("4","[tuv]")
-                .replaceAll("4","[wxyz]")
-                .replaceAll("\\*","")
-                .replaceAll("0","")
-                .replaceAll("\\+","")
-                .replaceAll("#","")
-                + ".*";
-                displayContacts.clear();
-                if (allContacts != null) {
-                    for (Contact contact: allContacts) {
-                        if (contact.getName() != null) {
-                            if (contact.getName().toLowerCase().matches(t9Pattern)) {
-                                displayContacts.put(contact.getName(),contact);
-                            }
-                            if (displayContacts.size() == 10) {
-                                break;
-                            }
-                        }
-                    }
-                }
-                adapter.updateData(displayContacts);
-            }
-        });
+        T9Executor executor = new T9Executor();
+        executor.setListener(this);
+        executor.getT9Contacts(allContacts,phoneNumberStr);
     }
 
     @Override
@@ -153,42 +116,34 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
             }
             case R.id._2: {
                 phoneNumberStr += "2";
-                matchPattern();
                 break;
             }
             case R.id._3: {
                 phoneNumberStr += "3";
-                matchPattern();
                 break;
             }
             case R.id._4: {
                 phoneNumberStr += "4";
-                matchPattern();
                 break;
             }
             case R.id._5: {
                 phoneNumberStr += "5";
-                matchPattern();
                 break;
             }
             case R.id._6: {
                 phoneNumberStr += "6";
-                matchPattern();
                 break;
             }
             case R.id._7: {
                 phoneNumberStr += "7";
-                matchPattern();
                 break;
             }
             case R.id._8: {
                 phoneNumberStr += "8";
-                matchPattern();
                 break;
             }
             case R.id._9: {
                 phoneNumberStr += "9";
-                matchPattern();
                 break;
             }
             case R.id._0: {
@@ -227,19 +182,17 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
             case R.id.backspace: {
                 if (phoneNumberStr.length() > 0) {
                     phoneNumberStr = phoneNumberStr.substring(0, phoneNumberStr.length() - 1);
-                    matchPattern();
                 }
                 break;
             }
         }
+        matchPattern();
         phoneNumber.setText(phoneNumberStr);
     }
 
     private void reset() {
         phoneNumberStr = "";
         phoneNumber.setText("");
-        displayContacts.clear();
-        matchPattern();
     }
 
     @Override
@@ -247,9 +200,20 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
         switch (v.getId()) {
             case R.id.backspace: {
                 reset();
+                matchPattern();
                 return true;
             }
         }
         return false;
+    }
+
+    @Override
+    public void t9SearchCompleted(final TreeMap<String, Contact> displayContacts) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapter.updateData(displayContacts);
+            }
+        });
     }
 }
