@@ -110,6 +110,22 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
         handler.post(new Runnable() {
             @Override
             public void run() {
+                String tempStr = phoneNumberStr;
+                t9Pattern = tempStr
+                .replaceAll("1","")
+                .replaceAll("2","[abc]")
+                .replaceAll("3","[def]")
+                .replaceAll("4","[ghi]")
+                .replaceAll("5","[jkl]")
+                .replaceAll("6","[mno]")
+                .replaceAll("4","[pqrs]")
+                .replaceAll("4","[tuv]")
+                .replaceAll("4","[wxyz]")
+                .replaceAll("\\*","")
+                .replaceAll("0","")
+                .replaceAll("\\+","")
+                .replaceAll("#","")
+                + ".*";
                 displayContacts.clear();
                 if (allContacts != null) {
                     for (Contact contact: allContacts) {
@@ -137,49 +153,41 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
             }
             case R.id._2: {
                 phoneNumberStr += "2";
-                t9Pattern = t9Pattern.substring(0,t9Pattern.length() - 2) + "[abc].*";
                 matchPattern();
                 break;
             }
             case R.id._3: {
                 phoneNumberStr += "3";
-                t9Pattern = t9Pattern.substring(0,t9Pattern.length() - 2) + "[def].*";
                 matchPattern();
                 break;
             }
             case R.id._4: {
                 phoneNumberStr += "4";
-                t9Pattern = t9Pattern.substring(0,t9Pattern.length() - 2) + "[ghi].*";
                 matchPattern();
                 break;
             }
             case R.id._5: {
                 phoneNumberStr += "5";
-                t9Pattern = t9Pattern.substring(0,t9Pattern.length() - 2) + "[jkl].*";
                 matchPattern();
                 break;
             }
             case R.id._6: {
                 phoneNumberStr += "6";
-                t9Pattern = t9Pattern.substring(0,t9Pattern.length() - 2) + "[mno].*";
                 matchPattern();
                 break;
             }
             case R.id._7: {
                 phoneNumberStr += "7";
-                t9Pattern = t9Pattern.substring(0,t9Pattern.length() - 2) + "[pqrs].*";
                 matchPattern();
                 break;
             }
             case R.id._8: {
                 phoneNumberStr += "8";
-                t9Pattern = t9Pattern.substring(0,t9Pattern.length() - 2) + "[tuv].*";
                 matchPattern();
                 break;
             }
             case R.id._9: {
                 phoneNumberStr += "9";
-                t9Pattern = t9Pattern.substring(0,t9Pattern.length() - 2) + "[wxyz].*";
                 matchPattern();
                 break;
             }
@@ -201,12 +209,6 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
             }
             case R.id._call: {
                 if (phoneNumberStr.length() > 0) {
-                    String data = "tel:" + phoneNumberStr;
-                    Intent callIntent = new Intent(Intent.ACTION_CALL).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    callIntent.setData(Uri.parse(data));
-                    getActivity().startActivity(callIntent);
-                    phoneNumberStr = "";
-                    phoneNumber.setText("");
                     try {
                         Answers.getInstance().logCustom(new CustomEvent("CALL BUTTON CLICKED")
                                 .putCustomAttribute("source","DialerFragment")
@@ -214,17 +216,18 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                    reset();
+                    String data = "tel:" + phoneNumberStr;
+                    Intent callIntent = new Intent(Intent.ACTION_CALL).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    callIntent.setData(Uri.parse(data));
+                    getActivity().startActivity(callIntent);
                 }
                 return;
             }
             case R.id.backspace: {
                 if (phoneNumberStr.length() > 0) {
                     phoneNumberStr = phoneNumberStr.substring(0, phoneNumberStr.length() - 1);
-                    if (t9Pattern.length() > 2) {
-                        int start = t9Pattern.lastIndexOf('[');
-                        t9Pattern = t9Pattern.substring(0,start) + ".*";
-                        matchPattern();
-                    }
+                    matchPattern();
                 }
                 break;
             }
@@ -232,14 +235,18 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
         phoneNumber.setText(phoneNumberStr);
     }
 
+    private void reset() {
+        phoneNumberStr = "";
+        phoneNumber.setText("");
+        displayContacts.clear();
+        matchPattern();
+    }
+
     @Override
     public boolean onLongClick(View v) {
         switch (v.getId()) {
             case R.id.backspace: {
-                phoneNumberStr = "";
-                phoneNumber.setText("");
-                t9Pattern = ".*";
-                displayContacts.clear();
+                reset();
                 return true;
             }
         }
