@@ -18,10 +18,6 @@ import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- * Created by puneetkkala on 27/08/17.
- */
-
 public class CallLogExecutor {
 
     private static final ExecutorService THREADPOOL = Executors.newCachedThreadPool();
@@ -77,24 +73,20 @@ public class CallLogExecutor {
     private String getType(String typeNum) {
         switch (Integer.valueOf(typeNum)) {
             case 1:
-                return "INCOMING";
+                return "Incoming";
             case 2:
-                return "OUTGOING";
+                return "Outgoing";
             case 3:
-                return "MISSED";
+                return "Missed";
             case 4:
-                return "VOICEMAIL";
+                return "Voicemail";
             case 5:
-                return "REJECTED";
+                return "Rejected";
             case 6:
-                return "BLOCKED";
+                return "Blocked";
             default:
                 return null;
         }
-    }
-
-    private String getTimeUnit(int num) {
-        return String.valueOf(num).length() == 1 ? "0" + num : String.valueOf(num);
     }
 
     private String calculateDuration(String duration) {
@@ -104,9 +96,11 @@ public class CallLogExecutor {
         if (min >= 60) {
             int hour = min / 60;
             min %= 60;
-            return  getTimeUnit(hour)+ ":" + getTimeUnit(min) + ":" + getTimeUnit(sec);
+            return  hour + "h " + min + "m " + sec + "s";
+        } else if (min == 0) {
+            return sec + "s";
         } else {
-            return "00:" + getTimeUnit(min) + ":" + getTimeUnit(sec);
+            return min + "m " + sec + "s";
         }
     }
 

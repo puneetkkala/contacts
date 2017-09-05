@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -45,35 +46,28 @@ public class CallLogAdapter extends RecyclerView.Adapter<CallLogAdapter.CallLogV
             } else {
                 holder.contactName.setText(phoneLog.getName());
             }
-            String typeDate = phoneLog.getType() + ", " + phoneLog.getDate();
-            holder.typeDate.setText(typeDate);
+            String typeDate;
             if (phoneLog.getType() != null) {
                 switch (phoneLog.getType()) {
-                    case "REJECTED":
-                    case "INCOMING": {
-                        holder.typeDate.setTextColor(Color.parseColor("#2196F3"));
-                        break;
-                    }
-                    case "OUTGOING": {
-                        holder.typeDate.setTextColor(Color.parseColor("#4CAF50"));
-                        break;
-                    }
-                    case "MISSED": {
+                    case "Rejected":
+                    case "Missed": {
+                        typeDate = phoneLog.getType();
                         holder.typeDate.setTextColor(Color.parseColor("#F44336"));
                         break;
                     }
-                    case "VOICEMAIL":
-                    case "BLOCKED":
                     default: {
-                        holder.typeDate.setTextColor(Color.BLACK);
+                        typeDate = phoneLog.getType() + ", " + phoneLog.getDuration();
+                        holder.typeDate.setTextColor(Color.parseColor("#8B99A3"));
                         break;
                     }
                 }
             } else {
-                holder.typeDate.setTextColor(Color.BLACK);
+                typeDate = phoneLog.getType();
+                holder.typeDate.setTextColor(Color.parseColor("#8B99A3"));
             }
-            holder.duration.setText(phoneLog.getDuration());
-            holder.duration.setTextColor(Color.parseColor("#9E9E9E"));
+            holder.typeDate.setText(typeDate);
+            holder.duration.setText(phoneLog.getDate());
+            holder.duration.setTextColor(Color.parseColor("#8B99A3"));
         }
     }
 
@@ -87,14 +81,14 @@ public class CallLogAdapter extends RecyclerView.Adapter<CallLogAdapter.CallLogV
         public TextView contactName;
         public TextView typeDate;
         public TextView duration;
-        public ImageView callImage;
+        public FloatingActionButton callImage;
 
         public CallLogViewHolder(View itemView) {
             super(itemView);
             contactName = (TextView) itemView.findViewById(R.id.contact_name);
             typeDate = (TextView) itemView.findViewById(R.id.type_date);
             duration = (TextView) itemView.findViewById(R.id.duration);
-            callImage = (ImageView) itemView.findViewById(R.id.call_image);
+            callImage = (FloatingActionButton) itemView.findViewById(R.id.call_image);
             callImage.setOnClickListener(this);
         }
 
