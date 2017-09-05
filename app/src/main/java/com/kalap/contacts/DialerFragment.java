@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.crashlytics.android.answers.Answers;
@@ -48,20 +50,19 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialer_fragment,container,false);
         phoneNumberStr = "";
-        TextView _1 = (TextView) view.findViewById(R.id._1);
-        TextView _2 = (TextView) view.findViewById(R.id._2);
-        TextView _3 = (TextView) view.findViewById(R.id._3);
-        TextView _4 = (TextView) view.findViewById(R.id._4);
-        TextView _5 = (TextView) view.findViewById(R.id._5);
-        TextView _6 = (TextView) view.findViewById(R.id._6);
-        TextView _7 = (TextView) view.findViewById(R.id._7);
-        TextView _8 = (TextView) view.findViewById(R.id._8);
-        TextView _9 = (TextView) view.findViewById(R.id._9);
-        TextView _0 = (TextView) view.findViewById(R.id._0);
-        TextView star = (TextView) view.findViewById(R.id._star);
-        TextView hash = (TextView) view.findViewById(R.id._hash);
-        TextView plus = (TextView) view.findViewById(R.id._plus);
-        ImageView call = (ImageView) view.findViewById(R.id._call);
+        LinearLayout _1 = (LinearLayout) view.findViewById(R.id._1);
+        LinearLayout _2 = (LinearLayout) view.findViewById(R.id._2);
+        LinearLayout _3 = (LinearLayout) view.findViewById(R.id._3);
+        LinearLayout _4 = (LinearLayout) view.findViewById(R.id._4);
+        LinearLayout _5 = (LinearLayout) view.findViewById(R.id._5);
+        LinearLayout _6 = (LinearLayout) view.findViewById(R.id._6);
+        LinearLayout _7 = (LinearLayout) view.findViewById(R.id._7);
+        LinearLayout _8 = (LinearLayout) view.findViewById(R.id._8);
+        LinearLayout _9 = (LinearLayout) view.findViewById(R.id._9);
+        LinearLayout _0 = (LinearLayout) view.findViewById(R.id._0);
+        LinearLayout star = (LinearLayout) view.findViewById(R.id._star);
+        LinearLayout hash = (LinearLayout) view.findViewById(R.id._hash);
+        FloatingActionButton call = (FloatingActionButton) view.findViewById(R.id._call);
         ImageView backspace = (ImageView) view.findViewById(R.id.backspace);
         phoneNumber = (TextView) view.findViewById(R.id.phone_number);
         contactsRv = (RecyclerView) view.findViewById(R.id.contacts_rv);
@@ -75,9 +76,9 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
         _8.setOnClickListener(this);
         _9.setOnClickListener(this);
         _0.setOnClickListener(this);
+        _0.setOnLongClickListener(this);
         star.setOnClickListener(this);
         hash.setOnClickListener(this);
-        plus.setOnClickListener(this);
         call.setOnClickListener(this);
         backspace.setOnClickListener(this);
         backspace.setOnLongClickListener(this);
@@ -158,10 +159,6 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
                 phoneNumberStr += "#";
                 break;
             }
-            case R.id._plus: {
-                phoneNumberStr += "+";
-                break;
-            }
             case R.id._call: {
                 if (phoneNumberStr.length() > 0) {
                     try {
@@ -201,6 +198,10 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
             case R.id.backspace: {
                 reset();
                 matchPattern();
+                return true;
+            }
+            case R.id._0: {
+                phoneNumberStr += "+";
                 return true;
             }
         }

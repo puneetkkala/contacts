@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="#f6f7f8"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -11,16 +12,12 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#dddddd" />
-
     <LinearLayout
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/drop_shadow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_marginTop="4dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -46,8 +43,8 @@
                 android:id="@+id/backspace"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:src="@drawable/ic_backspace_teal_24dp" />
+                android:paddingEnd="24dp"
+                android:src="@drawable/ic_backspace_gray_24dp" />
         </LinearLayout>
 
         <View
@@ -55,212 +52,295 @@
             android:layout_height="1dp"
             android:layout_marginBottom="4dp"
             android:layout_marginTop="4dp"
-            android:background="#eeeeee" />
-
+            android:background="#f6f7f8" />
         <LinearLayout
             android:gravity="center"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="3">
-            <android.support.v7.widget.AppCompatTextView
+            <LinearLayout
+                android:orientation="vertical"
                 android:id="@+id/_1"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:padding="4dp"
-                android:textSize="20sp"
-                android:gravity="center"
-                android:text="@string/_1"
-                android:textColor="@color/black" />
-            <android.support.v7.widget.AppCompatTextView
+                android:layout_height="wrap_content">
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="30sp"
+                    android:gravity="center"
+                    android:text="@string/_1"
+                    android:textColor="@color/black" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
                 android:id="@+id/_2"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:padding="4dp"
-                android:textSize="20sp"
-                android:gravity="center"
-                android:text="@string/_2"
-                android:textColor="@color/black" />
-            <android.support.v7.widget.AppCompatTextView
+                android:layout_height="wrap_content">
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="30sp"
+                    android:gravity="center"
+                    android:text="@string/_2"
+                    android:textColor="@color/black" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:text="@string/abc"
+                    android:textColor="@color/gray" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
                 android:id="@+id/_3"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="@string/_3"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:layout_height="wrap_content">
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="30sp"
+                    android:gravity="center"
+                    android:text="@string/_3"
+                    android:textColor="@color/black" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:text="@string/def"
+                    android:textColor="@color/gray" />
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="3">
-            <android.support.v7.widget.AppCompatTextView
+            <LinearLayout
+                android:orientation="vertical"
                 android:id="@+id/_4"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="@string/_4"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-            <android.support.v7.widget.AppCompatTextView
+                android:layout_height="wrap_content">
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="30sp"
+                    android:gravity="center"
+                    android:text="@string/_4"
+                    android:textColor="@color/black" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:text="@string/ghi"
+                    android:textColor="@color/gray" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
                 android:id="@+id/_5"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="@string/_5"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-            <android.support.v7.widget.AppCompatTextView
+                android:layout_height="wrap_content">
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="30sp"
+                    android:gravity="center"
+                    android:text="@string/_5"
+                    android:textColor="@color/black" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:text="@string/jkl"
+                    android:textColor="@color/gray" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
                 android:id="@+id/_6"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="@string/_6"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:layout_height="wrap_content">
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="30sp"
+                    android:gravity="center"
+                    android:text="@string/_6"
+                    android:textColor="@color/black" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:text="@string/mno"
+                    android:textColor="@color/gray" />
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="3">
-            <android.support.v7.widget.AppCompatTextView
+            <LinearLayout
+                android:orientation="vertical"
                 android:id="@+id/_7"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="@string/_7"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-            <android.support.v7.widget.AppCompatTextView
+                android:layout_height="wrap_content">
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="30sp"
+                    android:gravity="center"
+                    android:text="@string/_7"
+                    android:textColor="@color/black" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:text="@string/pqrs"
+                    android:textColor="@color/gray" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
                 android:id="@+id/_8"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="@string/_8"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-            <android.support.v7.widget.AppCompatTextView
+                android:layout_height="wrap_content">
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="30sp"
+                    android:gravity="center"
+                    android:text="@string/_8"
+                    android:textColor="@color/black" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:text="@string/tuv"
+                    android:textColor="@color/gray" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
                 android:id="@+id/_9"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="@string/_9"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:layout_height="wrap_content">
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="30sp"
+                    android:gravity="center"
+                    android:text="@string/_9"
+                    android:textColor="@color/black" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:text="@string/wxyz"
+                    android:textColor="@color/gray" />
+            </LinearLayout>
         </LinearLayout>
-
         <LinearLayout
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="3">
-            <android.support.v7.widget.AppCompatTextView
+            <LinearLayout
+                android:orientation="vertical"
                 android:id="@+id/_star"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_margin="4dp"
-                android:padding="4dp"
-                android:textSize="20sp"
-                android:text="@string/star"
-                android:textColor="@color/black" />
-            <android.support.v7.widget.AppCompatTextView
+                android:layout_height="wrap_content">
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="30sp"
+                    android:gravity="center"
+                    android:text="@string/star"
+                    android:textColor="@color/black" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/gray" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
                 android:id="@+id/_0"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="@string/_0"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-            <android.support.v7.widget.AppCompatTextView
+                android:layout_height="wrap_content">
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="30sp"
+                    android:gravity="center"
+                    android:text="@string/_0"
+                    android:textColor="@color/black" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:text="@string/plus"
+                    android:textColor="@color/gray" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
                 android:id="@+id/_hash"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:padding="4dp"
-                android:gravity="center"
-                android:textSize="20sp"
-                android:text="@string/hash"
-                android:textColor="@color/black" />
+                android:layout_height="wrap_content">
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="30sp"
+                    android:gravity="center"
+                    android:text="@string/hash"
+                    android:textColor="@color/black" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/gray" />
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3">
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/_plus"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_margin="4dp"
-                android:padding="4dp"
-                android:textSize="20sp"
-                android:text="@string/plus"
-                android:textColor="@color/black" />
-            <android.support.v7.widget.AppCompatImageView
+            android:orientation="horizontal">
+            <android.support.design.widget.FloatingActionButton
+                android:layout_margin="8dp"
                 android:id="@+id/_call"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:padding="4dp"
-                android:layout_gravity="center"
                 android:src="@drawable/ic_call_teal_24dp"
-                android:textColor="@color/black" />
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:padding="4dp"
-                android:gravity="center"
-                android:textSize="20sp"
-                android:text=""
-                android:textColor="@color/black" />
+                android:layout_width="54dp"
+                android:layout_height="54dp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
