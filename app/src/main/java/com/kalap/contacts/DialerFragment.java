@@ -171,11 +171,11 @@ public class DialerFragment extends Fragment implements View.OnClickListener, Vi
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    reset();
                     String data = "tel:" + phoneNumberStr;
                     Intent callIntent = new Intent(Intent.ACTION_CALL).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     callIntent.setData(Uri.parse(data));
                     getActivity().startActivity(callIntent);
+                    reset();
                 }
                 return;
             }
