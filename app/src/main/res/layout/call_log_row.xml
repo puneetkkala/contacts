@@ -49,8 +49,6 @@
                 tools:text="00:00:15" />
         </LinearLayout>
         <ImageView
-            android:scaleX="1.5"
-            android:scaleY="1.5"
             android:layout_margin="8dp"
             android:src="@drawable/ic_call_teal_24dp"
             android:id="@+id/call_image"
