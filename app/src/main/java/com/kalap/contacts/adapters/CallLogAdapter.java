@@ -81,14 +81,14 @@ public class CallLogAdapter extends RecyclerView.Adapter<CallLogAdapter.CallLogV
         public TextView contactName;
         public TextView typeDate;
         public TextView duration;
-        public FloatingActionButton callImage;
+        public ImageView callImage;
 
         public CallLogViewHolder(View itemView) {
             super(itemView);
             contactName = (TextView) itemView.findViewById(R.id.contact_name);
             typeDate = (TextView) itemView.findViewById(R.id.type_date);
             duration = (TextView) itemView.findViewById(R.id.duration);
-            callImage = (FloatingActionButton) itemView.findViewById(R.id.call_image);
+            callImage = (ImageView) itemView.findViewById(R.id.call_image);
             callImage.setOnClickListener(this);
         }
 
