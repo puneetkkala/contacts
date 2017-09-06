@@ -48,11 +48,14 @@ public class ContactExecutor {
                 Contact contact;
                 String name = cursor1.getString(cursor1.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
                 String phoneNum = cursor1.getString(cursor1.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                phoneNum = phoneNum.replaceAll("-","").replaceAll(" ","");
                 ArrayList<String> phNumList;
                 if (contactHashMap.containsKey(name)) {
                     contact = contactHashMap.get(name);
                     phNumList = contact.getPhoneNumberList();
-                    phNumList.add(phoneNum);
+                    if (!phNumList.contains(phoneNum)) {
+                        phNumList.add(phoneNum);
+                    }
                     contact.setPhoneNumberList(phNumList);
                     contactHashMap.put(name,contact);
                 } else {
