@@ -10,6 +10,7 @@ buildscript {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
+apply plugin: 'kotlin-android-extensions'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
@@ -19,7 +20,7 @@ repositories {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.kalap.contacts"
         minSdkVersion 19
