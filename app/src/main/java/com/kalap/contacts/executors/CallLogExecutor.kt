@@ -3,25 +3,24 @@ package com.kalap.contacts.executors
 import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
-import android.os.Looper
 import android.provider.CallLog
 import android.support.v4.app.ActivityCompat
 import com.kalap.contacts.`object`.PhoneLog
 import com.kalap.contacts.common.BaseExecutor
+import com.kalap.contacts.database.ContactsDatabaseHelper
 import com.kalap.contacts.listeners.CallLogLoadListener
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CallLogExecutor: BaseExecutor() {
+class CallLogExecutor(val context: Activity): BaseExecutor(context) {
     lateinit var listener: CallLogLoadListener
 
-    fun loadCallLogs(context: Activity) {
-        val runnable = Runnable { load(context) }
-        runButNotOnMainThread(runnable, Looper.getMainLooper().thread)
+    fun loadCallLogs() {
+        runOnBackgroundThread(Runnable { load() })
     }
 
-    private fun load(context: Activity) {
+    private fun load() {
         val phoneLogs = ArrayList<PhoneLog>()
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(context, arrayOf(Manifest.permission.READ_CALL_LOG), 103)
@@ -30,8 +29,10 @@ class CallLogExecutor: BaseExecutor() {
             if (callLogsCursor != null) {
                 while (callLogsCursor.moveToNext()) {
                     val phoneLog = PhoneLog()
-                    phoneLog.name = callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.CACHED_NAME))
+                    val helper = ContactsDatabaseHelper()
+//                    phoneLog.name = callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.CACHED_NAME))
                     phoneLog.number = callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.NUMBER))
+                    phoneLog.name = helper.getContactName(phoneLog.number)
                     phoneLog.type = getType(callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.TYPE)))
                     val date = callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.DATE))
                     try {
@@ -53,16 +54,14 @@ class CallLogExecutor: BaseExecutor() {
         }
     }
 
-    private fun getType(typeNum: String): String? {
-        return when (Integer.valueOf(typeNum)) {
-            1 -> "Incoming"
-            2 -> "Outgoing"
-            3 -> "Missed"
-            4 -> "Voicemail"
-            5 -> "Rejected"
-            6 -> "Blocked"
-            else -> null
-        }
+    private fun getType(typeNum: String): String = when (Integer.valueOf(typeNum)) {
+        1 -> "Incoming"
+        2 -> "Outgoing"
+        3 -> "Missed"
+        4 -> "Voicemail"
+        5 -> "Rejected"
+        6 -> "Blocked"
+        else -> ""
     }
 
     private fun calculateDuration(duration: String): String {

@@ -1,16 +1,16 @@
 package com.kalap.contacts.executors
 
-import android.os.Looper
+import android.content.Context
 import com.kalap.contacts.`object`.Contact
 import com.kalap.contacts.common.BaseExecutor
 import java.util.*
 
-class T9Executor: BaseExecutor() {
+class T9Executor(context: Context): BaseExecutor(context) {
     lateinit var listener: T9SearchCompleteListener
 
     fun getT9Contacts(allContacts: ArrayList<Contact>?, phoneNumberStr: String) {
         val runnable = Runnable { load(allContacts, phoneNumberStr) }
-        runButNotOnMainThread(runnable, Looper.getMainLooper().thread)
+        runOnBackgroundThread(runnable)
     }
 
     private fun load(allContacts: ArrayList<Contact>?, phoneNumberStr: String) {

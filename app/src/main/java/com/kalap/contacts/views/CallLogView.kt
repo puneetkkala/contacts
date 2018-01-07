@@ -22,7 +22,7 @@ class CallLogView(private val context: Context, itemView: View) : RecyclerView.V
         }
         itemView.contact_name.text = if (TextUtils.isEmpty(phoneLog.name)) phoneLog.number else phoneLog.name
         itemView.type_date.text = when (phoneLog.type) {
-            "Rejected","Missed",null -> phoneLog.type
+            "Rejected","Missed","" -> phoneLog.type
             else -> phoneLog.type + ", " + phoneLog.duration
         }
         itemView.type_date.setTextColor(Color.parseColor(

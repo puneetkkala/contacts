@@ -7,38 +7,37 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
-import com.kalap.contacts.adapters.CallLogAdapter
-import com.kalap.contacts.listeners.CallLogLoadListener
-import com.kalap.contacts.executors.CallLogExecutor
 import com.kalap.contacts.`object`.PhoneLog
-
-import java.util.ArrayList
-import kotlinx.android.synthetic.main.call_logs_fragment.*
+import com.kalap.contacts.adapters.CallLogAdapter
+import com.kalap.contacts.executors.CallLogExecutor
+import com.kalap.contacts.listeners.CallLogLoadListener
+import kotlinx.android.synthetic.main.call_logs_fragment.view.*
+import java.util.*
 
 class CallLogsFragment : Fragment(), CallLogLoadListener {
 
-    private var phoneLogs: ArrayList<PhoneLog>? = null
+    private lateinit var phoneLogs: ArrayList<PhoneLog>
+    private lateinit var root: View
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater!!.inflate(R.layout.call_logs_fragment, container, false)
+        root = inflater?.inflate(R.layout.call_logs_fragment, container, false)!!
         phoneLogs = ArrayList()
         resetAdapter()
-        return view
+        return root
     }
 
     override fun onResume() {
         super.onResume()
-        val executor = CallLogExecutor()
+        val executor = CallLogExecutor(activity)
         executor.listener = this
-        executor.loadCallLogs(activity)
+        executor.loadCallLogs()
     }
 
     private fun resetAdapter() {
         activity.runOnUiThread {
-            val callLogAdapter = CallLogAdapter(activity, phoneLogs!!)
-            call_logs.adapter = callLogAdapter
-            call_logs.layoutManager = LinearLayoutManager(activity)
+            val callLogAdapter = CallLogAdapter(activity, phoneLogs)
+            root.call_logs.adapter = callLogAdapter
+            root.call_logs.layoutManager = LinearLayoutManager(activity)
         }
     }
 
@@ -52,9 +51,9 @@ class CallLogsFragment : Fragment(), CallLogLoadListener {
         when (requestCode) {
             103 -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    val executor = CallLogExecutor()
+                    val executor = CallLogExecutor(activity)
                     executor.listener = this
-                    executor.loadCallLogs(activity)
+                    executor.loadCallLogs()
                 }
             }
         }

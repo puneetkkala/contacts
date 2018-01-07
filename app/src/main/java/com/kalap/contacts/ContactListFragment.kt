@@ -11,35 +11,36 @@ import android.view.ViewGroup
 import com.kalap.contacts.`object`.Contact
 import com.kalap.contacts.adapters.ContactAdapter
 import com.kalap.contacts.database.ContactsDatabaseHelper
+import kotlinx.android.synthetic.main.contact_list_fragment.view.*
 import java.util.*
-import kotlinx.android.synthetic.main.contact_list_fragment.*
 
 class ContactListFragment : Fragment(), TextWatcher {
 
     private lateinit var displayAll: TreeMap<String, Contact>
     private lateinit var displayList: TreeMap<String, Contact>
     private lateinit var contactAdapter: ContactAdapter
+    private lateinit var root: View
 
     private fun prepareList() {
-        val helper = ContactsDatabaseHelper(activity)
-        val contacts = helper.allContacts
+        val helper = ContactsDatabaseHelper()
+        val contacts = helper.getAllContacts()
         displayAll = TreeMap()
         contacts.forEach {displayAll.put(it.name, it)}
         displayList = TreeMap(displayAll)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater!!.inflate(R.layout.contact_list_fragment, container, false)
+        root = inflater?.inflate(R.layout.contact_list_fragment, container, false)!!
         prepareList()
         dataChange()
-        edit_query_text.addTextChangedListener(this)
-        return view
+        root.edit_query_text.addTextChangedListener(this)
+        return root
     }
 
     private fun dataChange() {
         contactAdapter = ContactAdapter(activity, displayList)
-        contacts_recycler_view.adapter = contactAdapter
-        contacts_recycler_view.layoutManager = LinearLayoutManager(activity)
+        root.contacts_recycler_view.adapter = contactAdapter
+        root.contacts_recycler_view.layoutManager = LinearLayoutManager(activity)
     }
 
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {

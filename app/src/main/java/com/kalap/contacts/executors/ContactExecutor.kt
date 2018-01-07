@@ -1,31 +1,31 @@
 package com.kalap.contacts.executors
 
 import android.content.Context
-import android.os.Looper
 import android.provider.ContactsContract
 import com.kalap.contacts.`object`.Contact
 import com.kalap.contacts.common.BaseExecutor
+import com.kalap.contacts.common.Common
 import com.kalap.contacts.database.ContactsDatabaseHelper
+import io.realm.RealmList
 import java.util.*
+import kotlin.collections.ArrayList
 
-class ContactExecutor: BaseExecutor() {
+class ContactExecutor(val context: Context): BaseExecutor(context) {
 
-    fun loadContacts(context: Context) {
-        val runnable = Runnable { load(context) }
-        runButNotOnMainThread(runnable, Looper.getMainLooper().thread)
-    }
+    fun loadContacts() = runOnBackgroundThread(Runnable { load() })
 
-    private fun load(context: Context) {
+    private fun load() {
         val contactHashMap = HashMap<String, Contact>()
         val contentResolver = context.contentResolver
         val cursor1 = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, "upper(" + ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + ") ASC")
         if (cursor1 != null) {
             while (cursor1.moveToNext()) {
                 val contact: Contact
+                val id = "" + cursor1.getInt(cursor1.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID))
                 val name = cursor1.getString(cursor1.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
                 var phoneNum = cursor1.getString(cursor1.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
                 phoneNum = phoneNum.replace("-".toRegex(), "").replace(" ".toRegex(), "")
-                val phNumList: ArrayList<String>
+                val phNumList: RealmList<String>
                 if (contactHashMap.containsKey(name)) {
                     contact = contactHashMap[name]!!
                     phNumList = contact.phoneNumberList
@@ -36,8 +36,9 @@ class ContactExecutor: BaseExecutor() {
                     contactHashMap.put(name, contact)
                 } else {
                     contact = Contact()
+                    contact.id = id
                     contact.name = name
-                    phNumList = ArrayList()
+                    phNumList = RealmList()
                     phNumList.add(phoneNum)
                     contact.phoneNumberList = phNumList
                     contactHashMap.put(name, contact)
@@ -45,13 +46,10 @@ class ContactExecutor: BaseExecutor() {
             }
             cursor1.close()
         }
-        for (name in contactHashMap.keys) {
-            val helper = ContactsDatabaseHelper(context)
-            helper.addContact(contactHashMap[name]!!)
-        }
-        val sharedPreferences1 = context.getSharedPreferences("contactsPreferences", Context.MODE_PRIVATE)
-        val editor = sharedPreferences1.edit()
-        editor.putLong("lastFetchTime", System.currentTimeMillis())
-        editor.apply()
+        val helper = ContactsDatabaseHelper()
+        var contactList = ArrayList<Contact>()
+        contactHashMap.forEach { contactList.add(it.value) }
+        helper.addContactBulk(contactList)
+        pref.putLong(Common.LAST_FETCH_TIME, System.currentTimeMillis())
     }
 }

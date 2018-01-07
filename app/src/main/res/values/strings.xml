@@ -28,4 +28,6 @@
     <string name="pqrs">PQRS</string>
     <string name="tuv">TUV</string>
     <string name="wxyz">WXYZ</string>
+    <string name="loading">Loading...</string>
+    <string name="permission_text">The application cannot work without this permission</string>
 </resources>

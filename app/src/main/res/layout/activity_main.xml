@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
-    <TextView
-        android:id="@+id/preparing_text_view"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:layout_width="match_parent"
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/preparingTv"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/preparing_the_app" />
+        android:text="@string/preparing_the_app"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <ProgressBar
-        android:id="@+id/loading_contacts_bar"
-        android:indeterminate="true"
+        android:id="@+id/loadingContactsBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintTop_toBottomOf="@id/preparingTv" />
+</android.support.constraint.ConstraintLayout>

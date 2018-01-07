@@ -16,7 +16,7 @@ import com.kalap.contacts.`object`.Contact
 import com.kalap.contacts.adapters.ContactAdapter
 import com.kalap.contacts.database.ContactsDatabaseHelper
 import com.kalap.contacts.executors.T9Executor
-import kotlinx.android.synthetic.main.dialer_fragment.*
+import kotlinx.android.synthetic.main.dialer_fragment.view.*
 import java.util.*
 
 class DialerFragment : Fragment(), View.OnClickListener, View.OnLongClickListener, T9Executor.T9SearchCompleteListener {
@@ -24,47 +24,48 @@ class DialerFragment : Fragment(), View.OnClickListener, View.OnLongClickListene
     private var phoneNumberStr: String = ""
     private var allContacts: ArrayList<Contact>? = null
     private var adapter: ContactAdapter? = null
+    private lateinit var root: View
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater!!.inflate(R.layout.dialer_fragment, container, false)
-        _1.setOnClickListener(this)
-        _2.setOnClickListener(this)
-        _3.setOnClickListener(this)
-        _4.setOnClickListener(this)
-        _5.setOnClickListener(this)
-        _6.setOnClickListener(this)
-        _7.setOnClickListener(this)
-        _8.setOnClickListener(this)
-        _9.setOnClickListener(this)
-        _0.setOnClickListener(this)
-        _0.setOnLongClickListener(this)
-        _star.setOnClickListener(this)
-        _hash.setOnClickListener(this)
-        _call.setOnClickListener(this)
-        backspace.setOnClickListener(this)
-        backspace.setOnLongClickListener(this)
-        phone_number.setOnClickListener(this)
+        root = inflater?.inflate(R.layout.dialer_fragment, container, false)!!
+        root._1.setOnClickListener(this)
+        root._2.setOnClickListener(this)
+        root._3.setOnClickListener(this)
+        root._4.setOnClickListener(this)
+        root._5.setOnClickListener(this)
+        root._6.setOnClickListener(this)
+        root._7.setOnClickListener(this)
+        root._8.setOnClickListener(this)
+        root._9.setOnClickListener(this)
+        root._0.setOnClickListener(this)
+        root._0.setOnLongClickListener(this)
+        root._star.setOnClickListener(this)
+        root._hash.setOnClickListener(this)
+        root._call.setOnClickListener(this)
+        root.backspace.setOnClickListener(this)
+        root.backspace.setOnLongClickListener(this)
+        root.phone_number.setOnClickListener(this)
         val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view.windowToken, InputMethodManager.RESULT_UNCHANGED_HIDDEN)
+        imm.hideSoftInputFromWindow(root.windowToken, InputMethodManager.RESULT_UNCHANGED_HIDDEN)
         val b = arguments
         if (b != null) {
             var data = b.getString("data")
             if (data != null) {
                 data = data.substring(4)
                 phoneNumberStr = data
-                phone_number.text = phoneNumberStr
+                root.phone_number.text = phoneNumberStr
             }
         }
-        val helper = ContactsDatabaseHelper(activity)
-        allContacts = helper.allContacts
-        contacts_rv.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        val helper = ContactsDatabaseHelper()
+        allContacts = helper.getAllContacts()
+        root.contacts_rv.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         adapter = ContactAdapter(activity, TreeMap())
-        contacts_rv.adapter = adapter
-        return view
+        root.contacts_rv.adapter = adapter
+        return root
     }
 
     private fun matchPattern() {
-        val executor = T9Executor()
+        val executor = T9Executor(activity.baseContext)
         executor.listener = this
         executor.getT9Contacts(allContacts, phoneNumberStr)
     }
@@ -129,12 +130,12 @@ class DialerFragment : Fragment(), View.OnClickListener, View.OnLongClickListene
             }
         }
         matchPattern()
-        phone_number.text = phoneNumberStr
+        root.phone_number.text = phoneNumberStr
     }
 
     private fun reset() {
         phoneNumberStr = ""
-        phone_number.text = ""
+        root.phone_number.text = ""
     }
 
     override fun onLongClick(v: View): Boolean {

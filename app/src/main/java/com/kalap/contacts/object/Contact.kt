@@ -1,9 +1,12 @@
 package com.kalap.contacts.`object`
 
-import java.util.*
+import io.realm.RealmList
+import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
 
-class Contact {
-    var id: String = ""
+open class Contact: RealmObject() {
+
+    @PrimaryKey var id: String = ""
     var name: String = ""
-    var phoneNumberList: ArrayList<String> = ArrayList()
+    var phoneNumberList: RealmList<String> = RealmList()
 }
