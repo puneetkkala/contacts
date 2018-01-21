@@ -30,7 +30,6 @@ class CallLogExecutor(val context: Activity): BaseExecutor(context) {
                 while (callLogsCursor.moveToNext()) {
                     val phoneLog = PhoneLog()
                     val helper = ContactsDatabaseHelper()
-//                    phoneLog.name = callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.CACHED_NAME))
                     phoneLog.number = callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.NUMBER))
                     phoneLog.name = helper.getContactName(phoneLog.number)
                     phoneLog.type = getType(callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.TYPE)))
@@ -47,6 +46,9 @@ class CallLogExecutor(val context: Activity): BaseExecutor(context) {
                     val duration = calculateDuration(callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.DURATION)))
                     phoneLog.duration = duration
                     phoneLogs.add(phoneLog)
+                    if (phoneLogs.size == 100) {
+                        listener.onCallLogLoaded(phoneLogs)
+                    }
                 }
                 callLogsCursor.close()
             }

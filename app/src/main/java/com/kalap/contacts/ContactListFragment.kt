@@ -25,7 +25,7 @@ class ContactListFragment : Fragment(), TextWatcher {
         val helper = ContactsDatabaseHelper()
         val contacts = helper.getAllContacts()
         displayAll = TreeMap()
-        contacts.forEach {displayAll.put(it.name, it)}
+        contacts.forEach { displayAll[it.name] = it }
         displayList = TreeMap(displayAll)
     }
 
