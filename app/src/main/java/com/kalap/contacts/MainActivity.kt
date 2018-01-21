@@ -5,6 +5,8 @@ import android.content.Intent
 import android.view.View
 import com.kalap.contacts.common.BaseActivity
 import com.kalap.contacts.common.Common
+import com.kalap.contacts.common.Common.log
+import com.kalap.contacts.common.Common.longToast
 import com.kalap.contacts.executors.ContactExecutor
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -26,7 +28,7 @@ class MainActivity : BaseActivity() {
                 startContactActivity()
             }
         } catch (e: Exception) {
-            Common.err(e)
+            e.log()
         }
     }
 
@@ -41,7 +43,7 @@ class MainActivity : BaseActivity() {
                 if (granted) {
                     execute()
                 } else {
-                    Common.longToast(this, getString(R.string.permission_text))
+                    R.string.permission_text.longToast(this)
                 }
             }
         }

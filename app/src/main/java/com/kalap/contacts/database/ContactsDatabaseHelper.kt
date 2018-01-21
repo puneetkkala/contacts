@@ -12,7 +12,7 @@ class ContactsDatabaseHelper {
     fun getAllContacts(): ArrayList<Contact> {
         val allContacts: ArrayList<Contact> = ArrayList()
         val realmResults = realm.where<Contact>().findAllSorted("name",Sort.ASCENDING)
-        realmResults.forEach { allContacts.add(it) }
+        realmResults.forEach { allContacts.add(realm.copyFromRealm(it)) }
         return allContacts
     }
 
