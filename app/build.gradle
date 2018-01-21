@@ -19,7 +19,6 @@ repositories {
     mavenCentral()
 }
 
-
 android {
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
@@ -27,8 +26,8 @@ android {
         applicationId "com.kalap.contacts"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 17
-        versionName "1.0.1.06"
+        versionCode 18
+        versionName "1.0.1.07"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
