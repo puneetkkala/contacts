@@ -26,8 +26,8 @@ android {
         applicationId "com.kalap.contacts"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 18
-        versionName "1.0.1.07"
+        versionCode 19
+        versionName "1.0.1.08"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
