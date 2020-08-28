@@ -1,6 +1,6 @@
 package com.kalap.contacts.database
 
-import com.kalap.contacts.`object`.Contact
+import com.kalap.contacts.model.Contact
 import io.realm.Realm
 import io.realm.Sort
 import io.realm.kotlin.where
@@ -16,19 +16,27 @@ class ContactsDatabaseHelper {
         return allContacts
     }
 
+    fun search(query: String): ArrayList<Contact> {
+        val allContacts: ArrayList<Contact> = ArrayList()
+        val realmResults = if (query.isEmpty()) {
+            realm.where<Contact>().findAll()
+        } else {
+            realm.where<Contact>().findAll().filter {
+                (it.phoneNumberList.any { query.contains(it) || it.contains(query) }) ||
+                        (it.name.contains(query) || query.contains(it.name))
+            }
+        }
+        realmResults.forEach { allContacts.add(realm.copyFromRealm(it)) }
+        return allContacts
+    }
+
     fun getContactName(phoneNumber: String): String {
         realm.where<Contact>().findAll().forEach {
-            if(it.phoneNumberList.filter { phoneNumber.contains(it) || it.contains(phoneNumber) }.isNotEmpty()) {
+            if(it.phoneNumberList.any { phoneNumber.contains(it) || it.contains(phoneNumber) }) {
                 return it.name
             }
         }
         return ""
-    }
-
-    fun addContact(contact: Contact) {
-        realm.executeTransactionAsync {
-            it.insertOrUpdate(contact)
-        }
     }
 
     fun addContactBulk(contactList: ArrayList<Contact>) {

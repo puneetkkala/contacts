@@ -21,7 +21,7 @@
         android:background="#eeeeee"
         android:layout_width="match_parent"
         android:layout_height="1dp" />
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:dividerHeight="2dp"
         android:padding="10dp"
         android:visibility="gone"

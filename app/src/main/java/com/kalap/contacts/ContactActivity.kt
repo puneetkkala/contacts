@@ -1,41 +1,29 @@
 package com.kalap.contacts
 
-import android.Manifest
-import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewPager
-import android.support.v7.app.AppCompatActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
+import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
-
-import com.kalap.contacts.adapters.ViewPagerAdapter
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
+import com.kalap.contacts.calllogs.CallLogsFragment
+import com.kalap.contacts.contact.ContactListFragment
+import com.kalap.contacts.dialer.DialerFragment
 import kotlinx.android.synthetic.main.activity_contact.*
 
-import java.util.ArrayList
+class ContactActivity : AppCompatActivity(R.layout.activity_contact), BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
 
-class ContactActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
-    private var data: Uri? = null
     private var prevMenuItem: MenuItem? = null
 
     public override fun onCreate(savedInstance: Bundle?) {
         super.onCreate(savedInstance)
-        data = intent.data
-        setContentView(R.layout.activity_contact)
-        if (ContextCompat.checkSelfPermission(this@ContactActivity, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this@ContactActivity, arrayOf(Manifest.permission.CALL_PHONE), CALL_PHONE_REQUEST)
-        }
         bottom_navigation.setOnNavigationItemSelectedListener(this)
-        val fragments = ArrayList<Fragment>()
-        val dialerFragment = DialerFragment.newInstance(data)
-        fragments.add(dialerFragment)
-        val callLogsFragment = CallLogsFragment.newInstance()
-        fragments.add(callLogsFragment)
-        val contactListFragment = ContactListFragment.newInstance()
-        fragments.add(contactListFragment)
+        val dialerFragment = DialerFragment.newInstance(intent.data)
+        val callLogsFragment = CallLogsFragment()
+        val contactListFragment = ContactListFragment()
+        val fragments = arrayListOf<Fragment>() + dialerFragment + callLogsFragment + contactListFragment
         val adapter = ViewPagerAdapter(supportFragmentManager, fragments)
         fragment_container.adapter = adapter
         fragment_container.addOnPageChangeListener(this)
@@ -60,7 +48,6 @@ class ContactActivity : AppCompatActivity(), BottomNavigationView.OnNavigationIt
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-
     }
 
     override fun onPageSelected(position: Int) {
@@ -74,10 +61,10 @@ class ContactActivity : AppCompatActivity(), BottomNavigationView.OnNavigationIt
     }
 
     override fun onPageScrollStateChanged(state: Int) {
-
     }
+}
 
-    companion object {
-        private val CALL_PHONE_REQUEST = 102
-    }
+class ViewPagerAdapter(fm: FragmentManager, private val fragments: List<Fragment>) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    override fun getItem(position: Int): Fragment = fragments[position]
+    override fun getCount(): Int = fragments.size
 }

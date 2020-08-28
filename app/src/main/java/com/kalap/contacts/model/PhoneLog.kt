@@ -1,4 +1,4 @@
-package com.kalap.contacts.`object`
+package com.kalap.contacts.model
 
 /**
  * Created by puneetkkala on 12/04/17.

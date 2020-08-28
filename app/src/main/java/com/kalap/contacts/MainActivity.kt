@@ -1,56 +1,38 @@
 package com.kalap.contacts
 
 import android.Manifest
-import android.content.Intent
-import android.view.View
-import com.kalap.contacts.common.BaseActivity
-import com.kalap.contacts.common.Common
-import com.kalap.contacts.common.Common.log
-import com.kalap.contacts.common.Common.longToast
-import com.kalap.contacts.executors.ContactExecutor
-import kotlinx.android.synthetic.main.activity_main.*
+import android.content.pm.PackageManager
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.kalap.contacts.common.*
 
-class MainActivity : BaseActivity() {
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
-    override fun getLayoutId(): Int = R.layout.activity_main
-
-    override fun initUi() {
-        loadingContactsBar.visibility = View.VISIBLE
-        try {
-            val time = pref.getLong(Common.LAST_FETCH_TIME)
-            if (System.currentTimeMillis() > time + Common.MINS_5) {
-                if (requestPermission(Manifest.permission.READ_CONTACTS, Common.REQUEST_READ_CONTACT_PERMISSION)) {
-                    execute()
-                }
-            } else {
-                preparingTv.text = getString(R.string.loading)
-                loadingContactsBar.visibility = View.INVISIBLE
-                startContactActivity()
-            }
-        } catch (e: Exception) {
-            e.log()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val permissions = arrayOf(Manifest.permission.READ_CONTACTS, Manifest.permission.CALL_PHONE, Manifest.permission.READ_CALL_LOG)
+        val shouldRequest = permissions.any { checkSelfPermission(it) != PackageManager.PERMISSION_GRANTED }
+        if (shouldRequest) {
+            requestPermissions(permissions, 101)
+        } else {
+            onPermissionGranted()
         }
     }
 
-    private fun execute() {
-        ContactExecutor(this).loadContacts()
-        startContactActivity()
-    }
-
-    override fun permissionResult(requestCode: Int, granted: Boolean) {
-        when (requestCode) {
-            Common.REQUEST_READ_CONTACT_PERMISSION -> {
-                if (granted) {
-                    execute()
-                } else {
-                    R.string.permission_text.longToast(this)
-                }
-            }
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (grantResults.isEmpty() || grantResults.any { it != PackageManager.PERMISSION_GRANTED }) {
+            onPermissionRejected()
+        } else {
+            onPermissionGranted()
         }
     }
 
-    private fun startContactActivity() {
-        startActivity(Intent(this, ContactActivity::class.java))
-        finish()
+    private fun onPermissionGranted() {
+        navigateTo<ContactActivity>(true)
+    }
+
+    private fun onPermissionRejected() {
+        longToast(R.string.permission_text)
     }
 }

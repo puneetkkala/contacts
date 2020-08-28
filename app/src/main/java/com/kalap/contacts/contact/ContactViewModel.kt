@@ -1,18 +1,20 @@
-package com.kalap.contacts.executors
+package com.kalap.contacts.contact
 
-import android.content.Context
+import android.app.Application
 import android.provider.ContactsContract
-import com.kalap.contacts.`object`.Contact
-import com.kalap.contacts.common.BaseExecutor
-import com.kalap.contacts.common.Common
+import androidx.lifecycle.MutableLiveData
+import com.kalap.contacts.model.Contact
+import com.kalap.contacts.common.BaseViewModel
 import com.kalap.contacts.database.ContactsDatabaseHelper
 import io.realm.RealmList
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ContactExecutor(val context: Context): BaseExecutor(context) {
+class ContactViewModel(application: Application) : BaseViewModel(application) {
 
-    fun loadContacts() = runOnBackgroundThread(Runnable { load() })
+    val contactsLd = MutableLiveData<List<Contact>>()
+
+    fun loadContacts() = runOnBackgroundThread({ load() })
 
     private fun load() {
         val contactHashMap = HashMap<String, Contact>()
@@ -33,7 +35,7 @@ class ContactExecutor(val context: Context): BaseExecutor(context) {
                         phNumList.add(phoneNum)
                     }
                     contact.phoneNumberList = phNumList
-                    contactHashMap.put(name, contact)
+                    contactHashMap[name] = contact
                 } else {
                     contact = Contact()
                     contact.id = id
@@ -41,15 +43,22 @@ class ContactExecutor(val context: Context): BaseExecutor(context) {
                     phNumList = RealmList()
                     phNumList.add(phoneNum)
                     contact.phoneNumberList = phNumList
-                    contactHashMap.put(name, contact)
+                    contactHashMap[name] = contact
                 }
             }
             cursor1.close()
         }
         val helper = ContactsDatabaseHelper()
-        var contactList = ArrayList<Contact>()
+        val contactList = ArrayList<Contact>()
         contactHashMap.forEach { contactList.add(it.value) }
         helper.addContactBulk(contactList)
-        pref.putLong(Common.LAST_FETCH_TIME, System.currentTimeMillis())
+        contactsLd.postValue(contactList)
+    }
+
+    fun searchContacts(query: String) = runOnBackgroundThread({ search(query) })
+
+    private fun search(query: String) {
+        val helper = ContactsDatabaseHelper()
+        contactsLd.postValue(helper.search(query))
     }
 }

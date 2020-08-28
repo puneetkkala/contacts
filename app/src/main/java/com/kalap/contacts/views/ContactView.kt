@@ -1,38 +1,32 @@
 package com.kalap.contacts.views
 
-import android.app.Activity
-import android.support.design.widget.Snackbar
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
-import com.kalap.contacts.`object`.Contact
-import com.kalap.contacts.adapters.PhoneNumberAdapter
+import android.view.ViewGroup
+import com.kalap.contacts.R
+import com.kalap.contacts.model.Contact
+import com.kalap.contacts.common.BaseAdapter
+import com.kalap.contacts.common.BaseViewHolder
 import kotlinx.android.synthetic.main.custom_contact_row.view.*
 
-/**
- * Created by kalapuneet on 24-11-2017.
- */
-class ContactView(private val activity: Activity, itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+class ContactView(parent: ViewGroup) : BaseViewHolder<Contact>(parent, R.layout.custom_contact_row) {
 
-    private lateinit var mContact: Contact
-
-    fun bindData(contact: Contact) {
-        mContact = contact
-        itemView.contact_name.text = contact.name
-        itemView.contact_name.setOnClickListener(this)
-    }
-
-    override fun onClick(view: View) {
-        if (itemView.phone_number_list.visibility == View.VISIBLE) {
-            itemView.phone_number_list.visibility = View.GONE
-        } else {
-            itemView.phone_number_list.visibility = View.VISIBLE
-            if (mContact.phoneNumberList.isNotEmpty()) {
-                val phoneNumberAdapter = PhoneNumberAdapter(activity, mContact.phoneNumberList)
-                itemView.phone_number_list.adapter = phoneNumberAdapter
-                itemView.phone_number_list.layoutManager = LinearLayoutManager(activity)
+    override fun bindTo(model: Contact) {
+        itemView.contact_name.text = model.name
+        itemView.contact_name.setOnClickListener {
+            if (itemView.phone_number_list.visibility == View.VISIBLE) {
+                itemView.phone_number_list.visibility = View.GONE
             } else {
-                Snackbar.make(itemView.phone_number_list, "Phone number not available for this contact", Snackbar.LENGTH_LONG).show()
+                itemView.phone_number_list.visibility = View.VISIBLE
+                if (model.phoneNumberList.isNotEmpty()) {
+                    val phoneNumberAdapter = BaseAdapter(PhoneNumberView::class)
+                    phoneNumberAdapter.updateItems(model.phoneNumberList)
+                    itemView.phone_number_list.adapter = phoneNumberAdapter
+                    itemView.phone_number_list.layoutManager = LinearLayoutManager(context)
+                } else {
+                    Snackbar.make(itemView.phone_number_list, "Phone number not available for this contact", Snackbar.LENGTH_LONG).show()
+                }
             }
         }
     }

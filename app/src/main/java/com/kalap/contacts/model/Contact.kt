@@ -1,4 +1,4 @@
-package com.kalap.contacts.`object`
+package com.kalap.contacts.model
 
 import io.realm.RealmList
 import io.realm.RealmObject
