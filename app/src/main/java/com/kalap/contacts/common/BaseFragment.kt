@@ -13,7 +13,7 @@ abstract class BaseFragment<VM: ViewModel, VH: BaseViewHolder<T>, T>(
 ) : Fragment(contentLayoutId) {
 
     protected val viewModel by lazy {
-        ViewModelProvider(this).get(viewModelClass.java)
+        ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(requireActivity().application)).get(viewModelClass.java)
     }
 
     protected val adapter by lazy {

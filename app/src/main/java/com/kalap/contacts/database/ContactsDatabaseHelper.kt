@@ -11,19 +11,21 @@ class ContactsDatabaseHelper {
 
     fun getAllContacts(): ArrayList<Contact> {
         val allContacts: ArrayList<Contact> = ArrayList()
-        val realmResults = realm.where<Contact>().findAllSorted("name",Sort.ASCENDING)
+        val realmResults = realm.where<Contact>().findAllSorted("name", Sort.ASCENDING)
         realmResults.forEach { allContacts.add(realm.copyFromRealm(it)) }
         return allContacts
     }
 
     fun search(query: String): ArrayList<Contact> {
+        val lowercaseQuery = query.toLowerCase()
         val allContacts: ArrayList<Contact> = ArrayList()
         val realmResults = if (query.isEmpty()) {
             realm.where<Contact>().findAll()
         } else {
             realm.where<Contact>().findAll().filter {
-                (it.phoneNumberList.any { query.contains(it) || it.contains(query) }) ||
-                        (it.name.contains(query) || query.contains(it.name))
+                (it.phoneNumberList.any {
+                    lowercaseQuery.contains(it.toLowerCase()) || it.toLowerCase().contains(lowercaseQuery)
+                }) || (it.name.toLowerCase().contains(lowercaseQuery) || lowercaseQuery.contains(it.name.toLowerCase()))
             }
         }
         realmResults.forEach { allContacts.add(realm.copyFromRealm(it)) }
@@ -32,7 +34,7 @@ class ContactsDatabaseHelper {
 
     fun getContactName(phoneNumber: String): String {
         realm.where<Contact>().findAll().forEach {
-            if(it.phoneNumberList.any { phoneNumber.contains(it) || it.contains(phoneNumber) }) {
+            if (it.phoneNumberList.any { phoneNumber.contains(it) || it.contains(phoneNumber) }) {
                 return it.name
             }
         }

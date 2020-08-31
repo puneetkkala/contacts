@@ -11,22 +11,10 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 
 fun View.keepKeyboardHidden() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(windowToken, InputMethodManager.RESULT_UNCHANGED_HIDDEN)
-}
-
-inline fun <reified T: AppCompatActivity> Context.navigateTo() {
-    startActivity(Intent(this, T::class.java))
-}
-
-inline fun<reified T: AppCompatActivity> AppCompatActivity.navigateTo(shouldFinish: Boolean = false) {
-    startActivity(Intent(this, T::class.java))
-    if (shouldFinish) {
-        finish()
-    }
 }
 
 fun Context.call(phoneNumber: String) {

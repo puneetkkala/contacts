@@ -12,7 +12,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.kalap.contacts.calllogs.CallLogsFragment
 import com.kalap.contacts.common.longToast
-import com.kalap.contacts.common.navigateTo
 import com.kalap.contacts.contact.ContactListFragment
 import com.kalap.contacts.dialer.DialerFragment
 import kotlinx.android.synthetic.main.activity_contact.*
@@ -21,14 +20,12 @@ class ContactActivity : AppCompatActivity(R.layout.activity_contact), BottomNavi
 
     private var prevMenuItem: MenuItem? = null
 
-    public override fun onCreate(savedInstance: Bundle?) {
+    override fun onCreate(savedInstance: Bundle?) {
         super.onCreate(savedInstance)
         val permissions = arrayOf(Manifest.permission.READ_CONTACTS, Manifest.permission.CALL_PHONE, Manifest.permission.READ_CALL_LOG)
         val shouldRequest = permissions.any { checkSelfPermission(it) != PackageManager.PERMISSION_GRANTED }
         if (shouldRequest) {
             requestPermissions(permissions, 101)
-        } else {
-            onPermissionGranted()
         }
         bottom_navigation.setOnNavigationItemSelectedListener(this)
         val dialerFragment = DialerFragment.newInstance(intent.data)
@@ -78,13 +75,7 @@ class ContactActivity : AppCompatActivity(R.layout.activity_contact), BottomNavi
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.isEmpty() || grantResults.any { it != PackageManager.PERMISSION_GRANTED }) {
             onPermissionRejected()
-        } else {
-            onPermissionGranted()
         }
-    }
-
-    private fun onPermissionGranted() {
-        navigateTo<ContactActivity>(true)
     }
 
     private fun onPermissionRejected() {

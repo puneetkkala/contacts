@@ -8,8 +8,6 @@ import java.util.concurrent.Executors
 
 open class BaseViewModel(application: Application) : AndroidViewModel(application) {
 
-    protected val pref = Preferences(application)
-
     protected val context: Context
         get() = getApplication()
 
