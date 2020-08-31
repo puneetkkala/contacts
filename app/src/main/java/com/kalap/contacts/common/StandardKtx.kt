@@ -11,6 +11,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.viewpager.widget.ViewPager
+
+fun String.oneContainsOther(other: String): Boolean {
+    return this.contains(other) || other.contains(this)
+}
 
 fun View.keepKeyboardHidden() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -40,5 +45,20 @@ fun EditText.onTextChange(body: (query: String) -> Unit) {
 
         override fun afterTextChanged(s: Editable?) {
         }
+    })
+}
+
+fun ViewPager.onPageSelected(body: (position: Int) -> Unit) {
+    addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+        }
+
+        override fun onPageSelected(position: Int) {
+            body.invoke(position)
+        }
+
+        override fun onPageScrollStateChanged(state: Int) {
+        }
+
     })
 }

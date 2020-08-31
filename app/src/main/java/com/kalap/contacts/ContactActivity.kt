@@ -3,20 +3,19 @@ package com.kalap.contacts
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.fragment.app.Fragment
-import androidx.viewpager.widget.ViewPager
 import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.kalap.contacts.calllogs.CallLogsFragment
 import com.kalap.contacts.common.longToast
+import com.kalap.contacts.common.onPageSelected
 import com.kalap.contacts.contact.ContactListFragment
 import com.kalap.contacts.dialer.DialerFragment
 import kotlinx.android.synthetic.main.activity_contact.*
 
-class ContactActivity : AppCompatActivity(R.layout.activity_contact), BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
+class ContactActivity : AppCompatActivity(R.layout.activity_contact) {
 
     private var prevMenuItem: MenuItem? = null
 
@@ -27,17 +26,17 @@ class ContactActivity : AppCompatActivity(R.layout.activity_contact), BottomNavi
         if (shouldRequest) {
             requestPermissions(permissions, 101)
         }
-        bottom_navigation.setOnNavigationItemSelectedListener(this)
+        bottom_navigation.setOnNavigationItemSelectedListener(::onNavigationItemSelected)
         val dialerFragment = DialerFragment.newInstance(intent.data)
         val callLogsFragment = CallLogsFragment()
         val contactListFragment = ContactListFragment()
         val fragments = arrayListOf<Fragment>() + dialerFragment + callLogsFragment + contactListFragment
         val adapter = ViewPagerAdapter(supportFragmentManager, fragments)
         fragment_container.adapter = adapter
-        fragment_container.addOnPageChangeListener(this)
+        fragment_container.onPageSelected(::onPageSelected)
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+    private fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_dial -> {
                 fragment_container.currentItem = 0
@@ -55,10 +54,7 @@ class ContactActivity : AppCompatActivity(R.layout.activity_contact), BottomNavi
         return false
     }
 
-    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-    }
-
-    override fun onPageSelected(position: Int) {
+    private fun onPageSelected(position: Int) {
         if (prevMenuItem != null) {
             prevMenuItem!!.isChecked = false
         } else {
@@ -66,9 +62,6 @@ class ContactActivity : AppCompatActivity(R.layout.activity_contact), BottomNavi
         }
         bottom_navigation.menu.getItem(position).isChecked = true
         prevMenuItem = bottom_navigation.menu.getItem(position)
-    }
-
-    override fun onPageScrollStateChanged(state: Int) {
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

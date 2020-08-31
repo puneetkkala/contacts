@@ -59,6 +59,10 @@ class ContactViewModel(application: Application) : BaseViewModel(application) {
 
     private fun search(query: String) {
         val helper = ContactsDatabaseHelper()
-        contactsLd.postValue(helper.search(query))
+        if (query.isEmpty()) {
+            contactsLd.postValue(helper.getAllContacts())
+        } else {
+            contactsLd.postValue(helper.search(query))
+        }
     }
 }
