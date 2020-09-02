@@ -11,5 +11,7 @@ abstract class BaseViewHolder<T>(parent: ViewGroup, @LayoutRes layoutId: Int) : 
     protected val context: Context
         get() = itemView.context
 
+    var listener: BaseListener<T>? = null
+
     abstract fun bindTo(model: T)
 }

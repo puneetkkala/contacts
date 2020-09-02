@@ -4,36 +4,44 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import com.kalap.contacts.R
+import com.kalap.contacts.common.*
 import com.kalap.contacts.model.Contact
-import com.kalap.contacts.common.BaseFragment
-import com.kalap.contacts.common.call
-import com.kalap.contacts.common.keepKeyboardHidden
 import com.kalap.contacts.views.ContactView
+import com.kalap.contacts.views.DialerNumberView
 import kotlinx.android.synthetic.main.dialer_fragment.*
 
 private const val EXTRA_DATA = "data"
 
-class DialerFragment : BaseFragment<DialerViewModel, ContactView, Contact>(R.layout.dialer_fragment, DialerViewModel::class, ContactView::class), View.OnClickListener, View.OnLongClickListener {
+class DialerFragment : BaseFragment<DialerViewModel, ContactView, Contact>(R.layout.dialer_fragment, DialerViewModel::class, ContactView::class), View.OnClickListener {
 
     private var phoneNumberStr: String = ""
 
+    private val dialerNumbersAdapter = BaseAdapter(DialerNumberView::class, object : BaseListener<Pair<String, String>> {
+        override fun handleAction(action: String, model: Pair<String, String>) {
+            when (action) {
+                DialerNumberView.ACTION_NUMBER_CLICK -> {
+                    phoneNumberStr += model.first
+                    matchPattern()
+                    phoneNumber.text = phoneNumberStr
+                }
+                DialerNumberView.ACTION_NUMBER_LONG_CLICK -> {
+                    when (model.first) {
+                        "0" -> phoneNumberStr += "+"
+                    }
+                }
+            }
+        }
+    })
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        button1.setOnClickListener(this)
-        button2.setOnClickListener(this)
-        button3.setOnClickListener(this)
-        button4.setOnClickListener(this)
-        button5.setOnClickListener(this)
-        button6.setOnClickListener(this)
-        button7.setOnClickListener(this)
-        button8.setOnClickListener(this)
-        button9.setOnClickListener(this)
-        button0.setOnClickListener(this)
-        button0.setOnLongClickListener(this)
-        buttonStar.setOnClickListener(this)
-        buttonHash.setOnClickListener(this)
+        super.onViewCreated(view, savedInstanceState)
         buttonCall.setOnClickListener(this)
         backspace.setOnClickListener(this)
-        backspace.setOnLongClickListener(this)
+        backspace.setOnLongClickListener {
+            reset()
+            matchPattern()
+            return@setOnLongClickListener true
+        }
         phoneNumber.setOnClickListener(this)
         view.keepKeyboardHidden()
         val b = arguments
@@ -46,7 +54,10 @@ class DialerFragment : BaseFragment<DialerViewModel, ContactView, Contact>(R.lay
             }
         }
         contactsRv.adapter = adapter
+        dialerNumberRv.adapter = dialerNumbersAdapter
         viewModel.displayContactsLd.observe(viewLifecycleOwner) { items -> adapter.updateItems(items) }
+        viewModel.dialerNumbersLd.observe(viewLifecycleOwner) { items -> dialerNumbersAdapter.updateItems(items) }
+        viewModel.loadDialer()
     }
 
     private fun matchPattern() {
@@ -55,25 +66,15 @@ class DialerFragment : BaseFragment<DialerViewModel, ContactView, Contact>(R.lay
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.button1 -> phoneNumberStr += "1"
-            R.id.button2 -> phoneNumberStr += "2"
-            R.id.button3 -> phoneNumberStr += "3"
-            R.id.button4 -> phoneNumberStr += "4"
-            R.id.button5 -> phoneNumberStr += "5"
-            R.id.button6 -> phoneNumberStr += "6"
-            R.id.button7 -> phoneNumberStr += "7"
-            R.id.button8 -> phoneNumberStr += "8"
-            R.id.button9 -> phoneNumberStr += "9"
-            R.id.button0 -> phoneNumberStr += "0"
-            R.id.buttonStar -> phoneNumberStr += "*"
-            R.id.buttonHash -> phoneNumberStr += "#"
             R.id.buttonCall -> {
                 if (phoneNumberStr.isNotEmpty()) {
                     context?.call(phoneNumberStr)
                 }
             }
             R.id.backspace -> {
-                if (phoneNumberStr.isNotEmpty()) phoneNumberStr = phoneNumberStr.substring(0, phoneNumberStr.length - 1)
+                if (phoneNumberStr.isNotEmpty()) {
+                    phoneNumberStr = phoneNumberStr.substring(0, phoneNumberStr.length - 1)
+                }
             }
         }
         matchPattern()
@@ -83,21 +84,6 @@ class DialerFragment : BaseFragment<DialerViewModel, ContactView, Contact>(R.lay
     private fun reset() {
         phoneNumberStr = ""
         phoneNumber.text = ""
-    }
-
-    override fun onLongClick(v: View): Boolean {
-        when (v.id) {
-            R.id.backspace -> {
-                reset()
-                matchPattern()
-                return true
-            }
-            R.id.button0 -> {
-                phoneNumberStr += "+"
-                return true
-            }
-        }
-        return false
     }
 
     companion object {

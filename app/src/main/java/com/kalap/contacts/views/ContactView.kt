@@ -1,5 +1,6 @@
 package com.kalap.contacts.views
 
+import android.content.res.ColorStateList
 import com.google.android.material.snackbar.Snackbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
@@ -14,6 +15,8 @@ class ContactView(parent: ViewGroup) : BaseViewHolder<Contact>(parent, R.layout.
 
     override fun bindTo(model: Contact) {
         itemView.contact_name.text = model.name
+        itemView.initialsImage.text = model.initial
+        itemView.initialsImage.backgroundTintList = ColorStateList.valueOf(model.color)
         itemView.contact_name.setOnClickListener {
             if (itemView.phone_number_list.visibility == View.VISIBLE) {
                 itemView.phone_number_list.visibility = View.GONE

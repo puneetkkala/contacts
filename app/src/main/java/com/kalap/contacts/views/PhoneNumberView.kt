@@ -11,6 +11,5 @@ class PhoneNumberView(parent: ViewGroup) : BaseViewHolder<String>(parent, R.layo
     override fun bindTo(model: String) {
         itemView.contact_number.text = model
         itemView.contact_number.setOnClickListener { context.call(model) }
-        itemView.contact_icon.setOnClickListener { context.call(model) }
     }
 }

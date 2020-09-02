@@ -1,7 +1,9 @@
 package com.kalap.contacts
 
-import android.Manifest
-import android.content.pm.PackageManager
+import android.Manifest.permission.CALL_PHONE
+import android.Manifest.permission.READ_CALL_LOG
+import android.Manifest.permission.READ_CONTACTS
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
@@ -21,11 +23,7 @@ class ContactActivity : AppCompatActivity(R.layout.activity_contact) {
 
     override fun onCreate(savedInstance: Bundle?) {
         super.onCreate(savedInstance)
-        val permissions = arrayOf(Manifest.permission.READ_CONTACTS, Manifest.permission.CALL_PHONE, Manifest.permission.READ_CALL_LOG)
-        val shouldRequest = permissions.any { checkSelfPermission(it) != PackageManager.PERMISSION_GRANTED }
-        if (shouldRequest) {
-            requestPermissions(permissions, 101)
-        }
+        checkPermission()
         bottom_navigation.setOnNavigationItemSelectedListener(::onNavigationItemSelected)
         val dialerFragment = DialerFragment.newInstance(intent.data)
         val callLogsFragment = CallLogsFragment()
@@ -64,9 +62,17 @@ class ContactActivity : AppCompatActivity(R.layout.activity_contact) {
         prevMenuItem = bottom_navigation.menu.getItem(position)
     }
 
+    private fun checkPermission() {
+        val permissions = arrayOf(READ_CONTACTS, CALL_PHONE, READ_CALL_LOG)
+        val shouldRequest = permissions.any { checkSelfPermission(it) != PERMISSION_GRANTED }
+        if (shouldRequest) {
+            requestPermissions(permissions, 101)
+        }
+    }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (grantResults.isEmpty() || grantResults.any { it != PackageManager.PERMISSION_GRANTED }) {
+        if (grantResults.isEmpty() || grantResults.any { it != PERMISSION_GRANTED }) {
             onPermissionRejected()
         }
     }

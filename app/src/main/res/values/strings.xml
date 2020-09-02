@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">The Contacts App</string>
+    <string name="app_name">Contacts</string>
     <string name="search_contact_by_name">Search contact by name</string>
     <string name="preparing_the_app">Preparing the app</string>
     <string name="_1">1</string>
