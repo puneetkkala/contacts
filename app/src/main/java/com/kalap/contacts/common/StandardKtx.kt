@@ -2,6 +2,7 @@ package com.kalap.contacts.common
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,7 +12,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.core.graphics.ColorUtils
 import androidx.viewpager.widget.ViewPager
+import java.util.*
 
 fun String.oneContainsOther(other: String): Boolean {
     return this.contains(other) || other.contains(this)
@@ -61,4 +64,21 @@ fun ViewPager.onPageSelected(body: (position: Int) -> Unit) {
         }
 
     })
+}
+
+fun getContrastColorForWhite(): Int {
+    val random = Random()
+    var backgroundColor = Color.argb(255, random.nextInt() % 128, random.nextInt() % 128, random.nextInt() % 128)
+    while (ColorUtils.calculateContrast(Color.WHITE, backgroundColor) < 3.5) {
+        backgroundColor = Color.argb(255, random.nextInt() % 128, random.nextInt() % 128, random.nextInt() % 128)
+    }
+    return backgroundColor
+}
+
+fun String.initial(): String {
+    return if (isNotBlank() && first().isLetter()) {
+        first().toUpperCase().toString()
+    } else {
+        "#"
+    }
 }

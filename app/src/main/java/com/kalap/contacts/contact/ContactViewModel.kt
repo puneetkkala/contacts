@@ -1,12 +1,12 @@
 package com.kalap.contacts.contact
 
 import android.app.Application
-import android.graphics.Color
 import android.provider.ContactsContract
-import androidx.core.graphics.ColorUtils
 import androidx.lifecycle.MutableLiveData
 import com.kalap.contacts.model.Contact
 import com.kalap.contacts.common.BaseViewModel
+import com.kalap.contacts.common.getContrastColorForWhite
+import com.kalap.contacts.common.initial
 import com.kalap.contacts.database.ContactsDatabaseHelper
 import io.realm.RealmList
 import java.util.*
@@ -41,18 +41,8 @@ class ContactViewModel(application: Application) : BaseViewModel(application) {
                 } else {
                     contact = Contact()
                     contact.id = id
-                    if (name.first().isLetter()) {
-                        contact.initial = name.first().toUpperCase().toString()
-                    } else {
-                        contact.initial = "#"
-                    }
-                    val random = Random()
-                    var backgroundColor = Color.argb(255, random.nextInt() % 128, random.nextInt() % 128, random.nextInt() % 128)
-                    val foregroundColor = Color.WHITE
-                    while (ColorUtils.calculateContrast(foregroundColor, backgroundColor) < 3.5) {
-                        backgroundColor = Color.argb(255, random.nextInt() % 128, random.nextInt() % 128, random.nextInt() % 128)
-                    }
-                    contact.color = backgroundColor
+                    contact.initial = name.initial()
+                    contact.color = getContrastColorForWhite()
                     contact.name = name
                     phNumList = RealmList()
                     phNumList.add(phoneNum)
