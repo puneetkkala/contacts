@@ -6,7 +6,6 @@ import io.realm.annotations.Index
 import io.realm.annotations.PrimaryKey
 
 open class Contact: RealmObject() {
-
     @PrimaryKey var id: String = ""
     @Index var initial: String = ""
     var color: Int = 0
