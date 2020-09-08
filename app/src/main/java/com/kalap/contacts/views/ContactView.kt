@@ -1,7 +1,6 @@
 package com.kalap.contacts.views
 
 import android.content.res.ColorStateList
-import com.google.android.material.snackbar.Snackbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
 import android.view.ViewGroup
@@ -17,20 +16,22 @@ class ContactView(parent: ViewGroup) : BaseViewHolder<Contact>(parent, R.layout.
         itemView.contact_name.text = model.name
         itemView.initialsImage.text = model.initial
         itemView.initialsImage.backgroundTintList = ColorStateList.valueOf(model.color)
+        handleExpandCollapse(model)
         itemView.contact_name.setOnClickListener {
-            if (itemView.phone_number_list.visibility == View.VISIBLE) {
-                itemView.phone_number_list.visibility = View.GONE
-            } else {
-                itemView.phone_number_list.visibility = View.VISIBLE
-                if (model.phoneNumberList.isNotEmpty()) {
-                    val phoneNumberAdapter = BaseAdapter(PhoneNumberView::class)
-                    phoneNumberAdapter.updateItems(model.phoneNumberList)
-                    itemView.phone_number_list.adapter = phoneNumberAdapter
-                    itemView.phone_number_list.layoutManager = LinearLayoutManager(context)
-                } else {
-                    Snackbar.make(itemView.phone_number_list, "Phone number not available for this contact", Snackbar.LENGTH_LONG).show()
-                }
-            }
+            model.isExpanded = !model.isExpanded
+            handleExpandCollapse(model)
+        }
+    }
+
+    private fun handleExpandCollapse(model: Contact) {
+        if (model.isExpanded && model.phoneNumberList.isNotEmpty()) {
+            itemView.phone_number_list.visibility = View.VISIBLE
+            val phoneNumberAdapter = BaseAdapter(PhoneNumberView::class)
+            phoneNumberAdapter.updateItems(model.phoneNumberList)
+            itemView.phone_number_list.adapter = phoneNumberAdapter
+            itemView.phone_number_list.layoutManager = LinearLayoutManager(context)
+        } else {
+            itemView.phone_number_list.visibility = View.GONE
         }
     }
 }

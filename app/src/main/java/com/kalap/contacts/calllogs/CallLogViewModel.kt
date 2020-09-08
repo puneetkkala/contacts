@@ -25,26 +25,28 @@ class CallLogViewModel(application: Application): BaseViewModel(application) {
         val callLogsCursor = context.contentResolver.query(CallLog.Calls.CONTENT_URI, null, null, null, CallLog.Calls.DATE + " DESC", null)
         if (callLogsCursor != null) {
             while (callLogsCursor.moveToNext()) {
-                val phoneLog = PhoneLog()
                 val helper = ContactsDatabaseHelper()
                 val number = callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.NUMBER))
                 val name = helper.getContactName(number)
-                phoneLog.number = number
-                phoneLog.name = name
-                phoneLog.type = getType(callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.TYPE)))
-                phoneLog.initial = name.initial()
-                phoneLog.color = getContrastColorForWhite()
+                var localDateTime = ""
                 val date = callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.DATE))
                 try {
                     val format = DateFormat.getDateInstance(DateFormat.FULL) as SimpleDateFormat
-                    format.applyPattern("dd-MM-yyyy hh:mm:ss")
-                    val localDateTime = format.format(Date(java.lang.Long.valueOf(date)))
-                    phoneLog.date = localDateTime
+                    format.applyPattern("dd-MM-yyyy HH:mm:ss")
+                    localDateTime = format.format(Date(java.lang.Long.valueOf(date)))
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-
                 val duration = calculateDuration(callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.DURATION)))
+                val phoneLog = PhoneLog(
+                        number = number,
+                        name = name,
+                        type = getType(callLogsCursor.getString(callLogsCursor.getColumnIndex(CallLog.Calls.TYPE))),
+                        initial = name.initial(),
+                        color = getContrastColorForWhite(),
+                        date = localDateTime,
+                        duration = duration
+                )
                 phoneLog.duration = duration
                 phoneLogs.add(phoneLog)
                 if (phoneLogs.size == 100) {

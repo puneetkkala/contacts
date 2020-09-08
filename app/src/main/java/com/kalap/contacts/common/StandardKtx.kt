@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.provider.ContactsContract
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
@@ -29,6 +30,13 @@ fun Context.call(phoneNumber: String) {
     val callIntent = Intent(Intent.ACTION_CALL).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     callIntent.data = Uri.parse("tel:$phoneNumber")
     startActivity(callIntent)
+}
+
+fun Context.saveNumber(phoneNumber: String) {
+    val saveIntent = Intent(Intent.ACTION_INSERT)
+    saveIntent.type = ContactsContract.Contacts.CONTENT_TYPE
+    saveIntent.putExtra(ContactsContract.Intents.Insert.PHONE, phoneNumber)
+    startActivity(saveIntent)
 }
 
 fun Context.longToast(@StringRes stringRes: Int) {
